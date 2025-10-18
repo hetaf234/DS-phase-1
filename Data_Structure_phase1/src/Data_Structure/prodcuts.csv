@@ -1,0 +1,51 @@
+productId,name,price,stock
+101,Laptop Pro 15,1499.99,20
+102,Wireless Mouse X1,29.99,120
+103,Mechanical Keyboard K200,89.5,75
+104,Smartphone S22,999,30
+105,USB-C Cable 1m,12.99,300
+106,Gaming Monitor 27,329.99,40
+107,External Hard Drive 1TB,79.99,60
+108,Bluetooth Headphones,149,85
+109,Webcam HD 1080p,59.99,90
+110,Portable Charger 20000mAh,39.99,150
+111,Smartwatch X5,199,35
+112,Desk Lamp LED,25.5,70
+113,Office Chair Ergo,299,22
+114,Laser Printer,249,15
+115,Graphics Tablet M10,179,45
+116,Smart Speaker Mini,49.99,200
+117,Wireless Keyboard Slim,69.99,100
+118,Router WiFi 6,159,40
+119,Projector HD,349.99,18
+120,Tablet T10,449.99,28
+121,Drone A200,599,12
+122,Action Camera Pro,249.99,25
+123,Noise Cancelling Earbuds,129.99,80
+124,VR Headset V2,399,10
+125,Microphone Studio,119,50
+126,Tripod Stand,45,90
+127,Portable SSD 512GB,109,75
+128,Laptop Stand Adjustable,39.99,100
+129,Wireless Charger Pad,29.99,150
+130,Digital Pen Stylus,35,85
+131,Smart Home Hub,89.99,60
+132,Security Camera Indoor,99.99,40
+133,Electric Kettle,49.99,70
+134,Coffee Maker,129,25
+135,Air Fryer,149,30
+136,Vacuum Robot,399,15
+137,Smart Thermostat,199,22
+138,Hair Dryer Pro,89.99,50
+139,Blender Max,69.99,45
+140,Toaster 4-Slice,59.99,40
+141,Iron Steam Pro,79.99,55
+142,Electric Toothbrush,99.99,65
+143,Shaver 5-Blade,129,30
+144,Camera Lens 50mm,299,18
+145,DSLR Camera X100,899,10
+146,TV 55-Inch 4K,699,20
+147,Soundbar 2.1,249,25
+148,Game Console Z,499,15
+149,Game Controller Dual,59.99,120
+150,Smart TV Stick,49.99,200
