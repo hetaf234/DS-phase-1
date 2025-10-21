@@ -14,7 +14,7 @@ public class Main {
     static LinkedList<Order>    orders    = new LinkedList<>();
     static final SimpleDateFormat DF = new SimpleDateFormat("dd/MM/yyyy");
 
-    // ------------------- Main -------------------
+    // ------------------- Main ---------------------
     public static void main(String[] args) {
         // Load CSVs (your exact paths)
         loadProducts("src/Data_Structure/prodcuts.csv");   // file name kept as you asked
