@@ -74,7 +74,7 @@ public class Order {
         System.out.println("Total: " + totalPrice);
     } // end printOrderDetails
 
-    // ------------------- Static Operations on Lists (class-level) -------------------
+    // ------------------- Static Operations on Lists  -------------------
 
     // Linear search by ID
     public static Order searchById(LinkedList<Order> list, int targetId) {
