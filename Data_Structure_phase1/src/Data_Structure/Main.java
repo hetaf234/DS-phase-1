@@ -14,6 +14,10 @@ public class Main {
     static LinkedList<Order>    orders    = new LinkedList<>();
     static final SimpleDateFormat DF = new SimpleDateFormat("dd/MM/yyyy");
 
+    // NOTE: helpers added (slide-style traversal, no size())
+    // - countList(list): counts elements by traversing (used for loaded counts + new IDs)
+    // - countReviews(list): counts reviews (used to create reviewId)
+
     // ------------------- Main ---------------------
     public static void main(String[] args) {
         // Load CSVs (your exact paths)
@@ -22,9 +26,11 @@ public class Main {
         loadOrders("src/Data_Structure/orders.csv");
         loadReviews("src/Data_Structure/reviews.csv");
 
-        System.out.println("Loaded Products=" + products.size()
-                + ", Customers=" + customers.size()
-                + ", Orders=" + orders.size());
+        System.out.println(
+            "Loaded Products=" + countList(products) +
+            ", Customers=" + countList(customers) +
+            ", Orders=" + countList(orders)
+        ); // end println
 
         // Menu loop
         Scanner sc = new Scanner(System.in);
@@ -46,9 +52,9 @@ public class Main {
             System.out.println("13. Add Product to Existing Order");
             System.out.println("14. List Customer Orders");
             System.out.println("15. List Customer Reviews");
-            System.out.println("16. List All (Products/Customers/Orders)");
-            System.out.println("17. Remove Product by ID");
-            System.out.println("18. Remove Customer by ID");
+            System.out.println("16. Remove Product by ID");
+            System.out.println("17. Remove Customer by ID");
+            System.out.println("18. Update Order Status");
             System.out.println("0.  Exit");
             System.out.print("Enter choice: ");
 
@@ -56,26 +62,26 @@ public class Main {
             choice = sc.nextInt(); sc.nextLine();
 
             switch (choice) {
-                case 1:  addProduct(sc); break;
-                case 2:  addCustomer(sc); break;
-                case 3:  placeOrder(sc); break;
-                case 4:  addReview(sc); break;
-                case 5:  extractReviewsByCustomer(sc); break;
-                case 6:  Product.printTopNByAverageRating(products, 3); break;
-                case 7:  ordersBetweenDates(sc); break;
-                case 8:  commonReviewedProducts(sc); break;
-                case 9:  viewProductDetails(sc); break;
-                case 10: updateProduct(sc); break;
-                case 11: editReviewById(sc); break;
-                case 12: cancelOrder(sc); break;
-                case 13: addProductToExistingOrder(sc); break;
-                case 14: listCustomerOrders(sc); break;
-                case 15: listCustomerReviews(sc); break;
-                case 16: listAll(); break;
-                case 17: removeProductById(sc); break;
-                case 18: removeCustomerById(sc); break;
-                case 0:  System.out.println("Program ended"); break;
-                default: System.out.println("Invalid choice"); break;
+                case 1:  addProduct(sc); break; // end case 1
+                case 2:  addCustomer(sc); break; // end case 2
+                case 3:  placeOrder(sc); break; // end case 3
+                case 4:  addReview(sc); break; // end case 4
+                case 5:  extractReviewsByCustomer(sc); break; // end case 5
+                case 6:  Product.printTopNByAverageRating(products, 3); break; // end case 6
+                case 7:  ordersBetweenDates(sc); break; // end case 7
+                case 8:  commonReviewedProducts(sc); break; // end case 8
+                case 9:  viewProductDetails(sc); break; // end case 9
+                case 10: updateProduct(sc); break; // end case 10
+                case 11: editReviewById(sc); break; // end case 11
+                case 12: cancelOrder(sc); break; // end case 12
+                case 13: addProductToExistingOrder(sc); break; // end case 13
+                case 14: listCustomerOrders(sc); break; // end case 14
+                case 15: listCustomerReviews(sc); break; // end case 15
+                case 16: removeProductById(sc); break; // end case 16
+                case 17: removeCustomerById(sc); break; // end case 17
+                case 18: updateOrderStatus(sc); break; // end case 18
+                case 0:  System.out.println("Program ended"); break; // end case 0
+                default: System.out.println("Invalid choice"); break; // end default
             } // end switch
         } // end while
         sc.close();
@@ -93,7 +99,7 @@ public class Main {
         System.out.print("Stock: ");
         int stock = sc.nextInt(); sc.nextLine();
 
-        products.add(new Product(id, name, price, stock));
+        products.insert(new Product(id, name, price, stock));
         System.out.println("Product added");
     } // end addProduct
 
@@ -105,7 +111,7 @@ public class Main {
         System.out.print("Email: ");
         String email = sc.nextLine();
 
-        customers.add(new Customer(id, name, email));
+        customers.insert(new Customer(id, name, email));
         System.out.println("Customer added");
     } // end addCustomer
 
@@ -115,7 +121,7 @@ public class Main {
         Customer cust = Customer.searchById(customers, cid);
         if (cust == null) { System.out.println("Customer not found"); return; } // end if
 
-        int newOrderId = orders.size() + 1;
+        int newOrderId = countList(orders) + 1; // slide-style: no size()
         Order order = new Order(newOrderId, cust, new Date());
 
         char more = 'y';
@@ -138,7 +144,7 @@ public class Main {
         } // end while
 
         cust.placeOrder(order);
-        orders.add(order);
+        orders.insert(order);
         System.out.println("Order placed. Total = " + order.getTotalPrice());
     } // end placeOrder
 
@@ -158,9 +164,10 @@ public class Main {
         System.out.print("Comment: ");
         String comment = sc.nextLine();
 
-        int newReviewId = p.getReviews().size() + u.getMyReviews().size() + 1;
-        Review r = new Review(newReviewId, pid, cid, rating, comment);
+        // slide-style: no size(); build a simple next id using counts
+        int newReviewId = countReviews(p.getReviews()) + countReviews(u.getMyReviews()) + 1;
 
+        Review r = new Review(newReviewId, pid, cid, rating, comment);
         p.addReview(r);   // Product ← Review
         u.addReview(r);   // Customer ← Review
 
@@ -273,13 +280,10 @@ public class Main {
         c.printMyReviews();
     } // end listCustomerReviews
 
-    static void listAll() {
-        Product.printAll(products);
-        System.out.println();
-        Customer.printAll(customers);
-        System.out.println();
-        Order.printAll(orders);
-    } // end listAll
+    
+    
+    
+    
 
     static void removeProductById(Scanner sc) {
         System.out.print("Product ID to remove: ");
@@ -296,7 +300,21 @@ public class Main {
         if (ok) { System.out.println("Customer removed."); }
         else    { System.out.println("Customer not found."); }
     } // end removeCustomerById
+    static void updateOrderStatus(Scanner sc) {
+        System.out.print("Order ID: ");
+        int oid = sc.nextInt(); sc.nextLine();
+        Order o = Order.searchById(orders, oid);
+        if (o == null) { System.out.println("Order not found"); return; } // end if
 
+        System.out.print("New status (Pending/Shipped/Delivered/Canceled): ");
+        String st = sc.nextLine();
+        if (st == null || st.length() == 0) {
+            System.out.println("No status given");
+            return;
+        } // end if
+
+        o.updateStatus(st);
+    } // end updateOrderStatus
     // ------------------- CSV LOADERS -------------------
     // products.csv: productId,name,price,stock
     static void loadProducts(String path) {
@@ -310,7 +328,7 @@ public class Main {
                 String name = c[1];
                 double price = Double.parseDouble(c[2]);
                 int stock = Integer.parseInt(c[3]);
-                products.add(new Product(id, name, price, stock));
+                products.insert(new Product(id, name, price, stock));
             } // end while
         } catch (Exception e) {
             System.out.println("Products load error: " + e.getMessage());
@@ -328,7 +346,7 @@ public class Main {
                 int id = Integer.parseInt(c[0]);
                 String name = c[1];
                 String email = c[2];
-                customers.add(new Customer(id, name, email));
+                customers.insert(new Customer(id, name, email));
             } // end while
         } catch (Exception e) {
             System.out.println("Customers load error: " + e.getMessage());
@@ -397,7 +415,7 @@ public class Main {
                     } // end for
                 } // end if items
 
-                orders.add(order);
+                orders.insert(order);
                 if (cust != null) { cust.placeOrder(order); } // end if
             } // end while
         } catch (Exception e) {
@@ -432,4 +450,29 @@ public class Main {
             System.out.println("Reviews load error: " + e.getMessage());
         } // end try-catch
     } // end loadReviews
+
+    // ------------------- Helpers (slide-style traversal) -------------------
+    static int countList(LinkedList<?> list) {
+        if (list.empty()) return 0;
+        int cnt = 0;
+        list.findFirst();
+        while (true) {
+            cnt++;
+            if (list.last()) break;
+            list.findNext();
+        } // end while
+        return cnt;
+    } // end countList
+
+    static int countReviews(LinkedList<Review> list) {
+        if (list.empty()) return 0;
+        int cnt = 0;
+        list.findFirst();
+        while (true) {
+            cnt++;
+            if (list.last()) break;
+            list.findNext();
+        } // end while
+        return cnt;
+    } // end countReviews
 } // end Main class

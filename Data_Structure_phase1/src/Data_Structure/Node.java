@@ -1,33 +1,16 @@
 package Data_Structure;
 
-import java.io.Serializable;
+public class Node<T> {
+    public T data;
+    public Node<T> next;
 
-public class Node<T> implements Serializable {
-    private T data;
-    Node<T> next;
+    public Node() {
+        data = null;
+        next = null;
+    } // end default constructor
 
-    public Node(T data) {
-    	this.data = data;
-    	}
-    
-    public T getData() {
-    	return data; 
-    	}
-    
-    public Node<T> getNext() {
-    	return next; 
-    	}
-    public void setData(T data) {
-    this.data = data; 
-    }
-    
-    public void setNext(Node<T> next){ 
-    	this.next = next; 
-    	}
-    public String toString() {
-    	return String.valueOf(data); 
-    }
-    
- 
-    
-}
+    public Node(T val) {
+        data = val;
+        next = null;
+    } // end parameterized constructor
+} // end Node class

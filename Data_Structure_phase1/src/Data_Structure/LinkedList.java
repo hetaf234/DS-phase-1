@@ -1,69 +1,70 @@
 package Data_Structure;
-import java.io.Serializable;
 
-public class LinkedList<T> implements Serializable {
-    private Node<T> head, tail;
-    private int size;
+public class LinkedList<T> {
+    private Node<T> head;
+    private Node<T> current;
 
-    public void add(T data) {
-        Node<T> n = new Node<>(data);
-        if (head == null) head = tail = n;
-        else { tail.setNext(n); tail = n; }
-        size++;
-    }
+    public LinkedList() {
+        head = current = null;
+    } // end constructor
 
-    public T get(int index) {
-        if (index < 0 || index >= size) return null;
-        Node<T> cur = head;
-        for (int i = 0; i < index; i++) cur = cur.getNext();
-        return cur.getData();
-    }
+    public boolean empty() {
+        return head == null;
+    } // end empty
 
-    public void set(int index, T newData) {
-        if (index < 0 || index >= size) return;
-        Node<T> cur = head;
-        for (int i = 0; i < index; i++) cur = cur.getNext();
-        cur.setData(newData);
-    }
+    public boolean full() {
+        return false; // linked list never full
+    } // end full
 
-    public void removeAt(int index) {
-        if (index < 0 || index >= size) return;
-        if (index == 0) {
-            head = head.getNext();
-            if (head == null) tail = null;
+    public void findFirst() {
+        current = head;
+    } // end findFirst
+
+    public void findNext() {
+        current = current.next;
+    } // end findNext
+
+    public boolean last() {
+        return current.next == null;
+    } // end last
+
+    public T retrieve() {
+        return current.data;
+    } // end retrieve
+
+    public void update(T val) {
+        current.data = val;
+    } // end update
+
+    public void insert(T val) {
+        Node<T> tmp;
+
+        if (empty()) {
+            current = head = new Node<T>(val);
         } else {
-            Node<T> prev = head;
-            for (int i = 0; i < index - 1; i++) prev = prev.getNext();
-            Node<T> del = prev.getNext();
-            prev.setNext(del.getNext());
-            if (del == tail) tail = prev;
-        }
-        size--;
-    }
+            tmp = current.next;
+            current.next = new Node<T>(val);
+            current = current.next;
+            current.next = tmp;
+        } // end else
+    } // end insert
 
-    public boolean remove(T data) { // uses equals()
-        Node<T> cur = head, prev = null;
-        while (cur != null) {
-            if ((data == null && cur.getData() == null) ||
-                (data != null && data.equals(cur.getData()))) {
-                if (prev == null) head = cur.getNext();
-                else prev.setNext(cur.getNext());
-                if (cur == tail) tail = prev;
-                size--;
-                return true;
-            }
-            prev = cur; cur = cur.getNext();
-        }
-        return false;
-    }
+    public void remove() {
+        if (current == head) {
+            head = head.next;
+        } else {
+            Node<T> tmp = head;
+            while (tmp.next != current) {
+                tmp = tmp.next;
+            } // end while
+            tmp.next = current.next;
+        } // end else
 
-    public void clear() { head = tail = null; size = 0; }
-    public boolean isEmpty() { return size == 0; }
-    public int size() { return size; }
-    public Node<T> getHead() { return head; }
+        if (current.next == null)
+            current = head;
+        else
+            current = current.next;
+    } // end remove
 
-    public void printAll() {
-        Node<T> cur = head;
-        while (cur != null) { System.out.println(cur.getData()); cur = cur.getNext(); }
-    }
-}
+    
+} // end LinkedList class

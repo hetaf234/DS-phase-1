@@ -35,8 +35,9 @@ public class Order {
     // ------------------- Per-order Operations -------------------
     public void addProduct(Product p, int qty) {
         if (p == null || qty <= 0) return;
-        products.add(p);
-        quantities.add(qty);
+
+        products.insert(p);
+        quantities.insert(qty);
         totalPrice += p.getPrice() * qty;
     } // end addProduct
 
@@ -62,69 +63,81 @@ public class Order {
         System.out.println("Date: " + (orderDate != null ? df.format(orderDate) : "N/A"));
         System.out.println("Status: " + status);
         System.out.println("Items:");
-        Node<Product> pNode = products.getHead();
-        Node<Integer> qNode = quantities.getHead();
-        while (pNode != null && qNode != null) {
-            Product p = pNode.getData();
-            int qty = qNode.getData();
+
+        products.findFirst();
+        quantities.findFirst();
+
+        while (true) {
+            Product p = products.retrieve();
+            int qty = quantities.retrieve();
+
             System.out.println("  - " + p.getName() + " x" + qty + " = " + (p.getPrice() * qty));
-            pNode = pNode.getNext();
-            qNode = qNode.getNext();
+
+            if (products.last() || quantities.last()) break;
+
+            products.findNext();
+            quantities.findNext();
         } // end while
+
         System.out.println("Total: " + totalPrice);
     } // end printOrderDetails
 
-    // ------------------- Static Operations on Lists  -------------------
+    // ------------------- Static Operations on Lists -------------------
 
-    // Linear search by ID
     public static Order searchById(LinkedList<Order> list, int targetId) {
-        Node<Order> cur = list.getHead();
-        while (cur != null) {
-            if (cur.getData().getOrderId() == targetId) { return cur.getData(); } // end if
-            cur = cur.getNext();
+        if (list.empty()) return null;
+
+        list.findFirst();
+        while (true) {
+            Order o = list.retrieve();
+            if (o.getOrderId() == targetId) return o;
+
+            if (list.last()) break;
+            list.findNext();
         } // end while
         return null;
     } // end searchById
 
-    // Print orders between two dates (inclusive)
     public static void printBetweenDates(LinkedList<Order> list, Date start, Date end) {
         SimpleDateFormat df = new SimpleDateFormat("dd/MM/yyyy");
         System.out.println("Orders between " + df.format(start) + " and " + df.format(end));
         boolean any = false;
-        Node<Order> cur = list.getHead();
-        while (cur != null) {
-            Order o = cur.getData();
+
+        if (list.empty()) {
+            System.out.println("No orders found in this range.");
+            return;
+        } // end if
+
+        list.findFirst();
+        while (true) {
+            Order o = list.retrieve();
             Date d = o.getOrderDate();
+
             if (!d.before(start) && !d.after(end)) {
                 System.out.println(o);
                 any = true;
             } // end if
-            cur = cur.getNext();
+
+            if (list.last()) break;
+            list.findNext();
         } // end while
-        if (!any) { System.out.println("No orders found in this range."); } // end if
+
+        if (!any) System.out.println("No orders found in this range.");
     } // end printBetweenDates
 
-    // Add a product to an existing order by IDs (returns true if success)
-    public static boolean addProductToOrderById(LinkedList<Order> orders,
-                                                LinkedList<Product> products,
-                                                int orderId, int productId, int qty) {
+    public static boolean addProductToOrderById(LinkedList<Order> orders, LinkedList<Product> products,int orderId, int productId, int qty) {
+       
         Order o = searchById(orders, orderId);
-        if (o == null) { return false; } // end if
+        if (o == null) return false;
+
         Product p = Product.searchById(products, productId);
-        if (p == null) { return false; } // end if
+        if (p == null) return false;
+
         o.addProduct(p, qty);
         return true;
     } // end addProductToOrderById
 
-    // Print all orders (quick overview)
-    public static void printAll(LinkedList<Order> list) {
-        System.out.println("Orders (" + list.size() + "):");
-        Node<Order> o = list.getHead();
-        while (o != null) {
-            System.out.println(o.getData());
-            o = o.getNext();
-    } // end while
-    } // end printAll
+    
 
     // ------------------- Display -------------------
     public String toString() {

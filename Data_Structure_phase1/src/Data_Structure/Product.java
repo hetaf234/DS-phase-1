@@ -27,174 +27,222 @@ public class Product {
     public void setStock(int newStock) { this.stock = newStock; } // end setStock
 
     // ------------------- Per-product Operations -------------------
-
-    // Add a review for this product
     public void addReview(Review r) {
-        if (r != null && r.getProductId() == this.productId) { reviews.add(r); } // end if
+        if (r != null && r.getProductId() == this.productId) {
+            reviews.insert(r);
+        } // end if
     } // end addReview
 
-    // Remove a review by ID (linear)
     public boolean removeReviewById(int reviewId) {
-        Node<Review> cur = reviews.getHead();
-        while (cur != null) {
-            if (cur.getData().getReviewId() == reviewId) {
-                reviews.remove(cur.getData());
+        if (reviews.empty()) return false;
+
+        reviews.findFirst();
+        while (true) {
+            Review r = reviews.retrieve();
+            if (r.getReviewId() == reviewId) {
+                reviews.remove();
                 return true;
             } // end if
-            cur = cur.getNext();
+
+            if (reviews.last()) break;
+            reviews.findNext();
         } // end while
         return false;
     } // end removeReviewById
 
-    // Edit a review by ID
     public boolean editReviewById(int reviewId, Integer newRating, String newComment) {
-        Node<Review> cur = reviews.getHead();
-        while (cur != null) {
-            Review r = cur.getData();
+        if (reviews.empty()) return false;
+
+        reviews.findFirst();
+        while (true) {
+            Review r = reviews.retrieve();
             if (r.getReviewId() == reviewId) {
-                if (newRating != null) { r.setRating(newRating); } // end if
-                if (newComment != null && newComment.length() > 0) { r.setComment(newComment); } // end if
+                if (newRating != null) r.setRating(newRating);
+                if (newComment != null && newComment.length() > 0) r.setComment(newComment);
                 return true;
             } // end if
-            cur = cur.getNext();
+
+            if (reviews.last()) break;
+            reviews.findNext();
         } // end while
         return false;
     } // end editReviewById
 
-    // Average rating
     public double getAverageRating() {
-        if (reviews.isEmpty()) return 0;
+        if (reviews.empty()) return 0;
+
         double sum = 0;
-        Node<Review> cur = reviews.getHead();
-        while (cur != null) {
-            sum += cur.getData().getRating();
-            cur = cur.getNext();
+        int count = 0;
+
+        reviews.findFirst();
+        while (true) {
+            Review r = reviews.retrieve();
+            sum += r.getRating();
+            count++;
+
+            if (reviews.last()) break;
+            reviews.findNext();
         } // end while
-        return sum / reviews.size();
+        return count == 0 ? 0 : sum / count;
     } // end getAverageRating
 
-    // Out-of-stock checker
     public boolean isOutOfStock() {
         return stock <= 0;
     } // end isOutOfStock
 
-    // Update price/stock together
     public void updateProduct(double newPrice, int newStock) {
-        if (newPrice >= 0) { this.price = newPrice; } // end if
-        if (newStock >= 0) { this.stock = newStock; } // end if
+        if (newPrice >= 0) this.price = newPrice;
+        if (newStock >= 0) this.stock = newStock;
     } // end updateProduct
 
-    // Pretty print details + reviews
     public void printDetails() {
         System.out.println("Product: " + name + ", price=" + price + ", stock=" + stock);
         System.out.println("Average rating: " + getAverageRating());
-        Node<Review> r = reviews.getHead();
-        if (r == null) { System.out.println("No reviews for this product."); } // end if
-        while (r != null) {
-            Review rev = r.getData();
+
+        if (reviews.empty()) {
+            System.out.println("No reviews for this product.");
+            return;
+        } // end if
+
+        reviews.findFirst();
+        while (true) {
+            Review rev = reviews.retrieve();
             System.out.println("Review#" + rev.getReviewId() + " by C" + rev.getCustomerId()
                     + " rating=" + rev.getRating() + " comment=" + rev.getComment());
-            r = r.getNext();
+
+            if (reviews.last()) break;
+            reviews.findNext();
         } // end while
     } // end printDetails
 
-    // ------------------- Static Operations on Lists (class-level) -------------------
-
-    // Linear search by ID
+    // ------------------- Static Operations -------------------
     public static Product searchById(LinkedList<Product> list, int id) {
-        Node<Product> cur = list.getHead();
-        while (cur != null) {
-            if (cur.getData().getProductId() == id) { return cur.getData(); } // end if
-            cur = cur.getNext();
+        if (list.empty()) return null;
+
+        list.findFirst();
+        while (true) {
+            Product p = list.retrieve();
+            if (p.getProductId() == id) return p;
+
+            if (list.last()) break;
+            list.findNext();
         } // end while
         return null;
     } // end searchById
 
-    // Linear search by Name (case-insensitive)
     public static Product searchByName(LinkedList<Product> list, String targetName) {
-        Node<Product> cur = list.getHead();
-        while (cur != null) {
-            if (cur.getData().getName().equalsIgnoreCase(targetName)) { return cur.getData(); } // end if
-            cur = cur.getNext();
+        if (list.empty()) return null;
+
+        list.findFirst();
+        while (true) {
+            Product p = list.retrieve();
+            if (p.getName().equalsIgnoreCase(targetName)) return p;
+
+            if (list.last()) break;
+            list.findNext();
         } // end while
         return null;
     } // end searchByName
 
-    // Top N products by average rating (prints)
     public static void printTopNByAverageRating(LinkedList<Product> list, int n) {
-        Product a = null, b = null, c = null; // for n up to 3 (assignment asks top 3)
+        Product a = null, b = null, c = null;
         double ra = -1, rb = -1, rc = -1;
 
-        Node<Product> cur = list.getHead();
-        while (cur != null) {
-            Product p = cur.getData();
+        list.findFirst();
+        while (true) {
+            Product p = list.retrieve();
             double r = p.getAverageRating();
-            if (r > ra) { c = b; rc = rb; b = a; rb = ra; a = p; ra = r; }
-            else if (r > rb) { c = b; rc = rb; b = p; rb = r; }
-            else if (r > rc) { c = p; rc = r; } // end if-chain
-            cur = cur.getNext();
+
+            if (r > ra) {          // if higher than best so far
+                c = b; rc = rb;    // shift old 2nd to 3rd
+                b = a; rb = ra;    // shift old 1st to 2nd
+                a = p; ra = r;     // set new 1st
+            }
+            else if (r > rb) {     // second best
+                c = b; rc = rb;
+                b = p; rb = r;
+            }
+            else if (r > rc) {     // third best
+                c = p; rc = r;
+            }
+
+            if (list.last()) break;
+            list.findNext();
+       
         } // end while
 
         System.out.println("Top " + n + " Products:");
         int count = 0;
-        if (a != null && count < n) { System.out.println("1) " + a.getName() + " (" + ra + ")"); count++; } // end if
-        if (b != null && count < n) { System.out.println("2) " + b.getName() + " (" + rb + ")"); count++; } // end if
-        if (c != null && count < n) { System.out.println("3) " + c.getName() + " (" + rc + ")"); count++; } // end if
+        if (a != null && count < n) { System.out.println("1) " + a.getName() + " (" + ra + ")"); count++; }
+        if (b != null && count < n) { System.out.println("2) " + b.getName() + " (" + rb + ")"); count++; }
+        if (c != null && count < n) { System.out.println("3) " + c.getName() + " (" + rc + ")"); count++; }
     } // end printTopNByAverageRating
 
-    // Common reviewed products by two customers with avg > minAvg (prints)
     public static void printCommonReviewedAbove(LinkedList<Product> list, int c1, int c2, double minAvg) {
         boolean found = false;
-        Node<Product> pNode = list.getHead();
-        while (pNode != null) {
-            Product p = pNode.getData();
+        if (list.empty()) {
+            System.out.println("No products available.");
+            return;
+        } // end if
+
+        list.findFirst();
+        while (true) {
+            Product p = list.retrieve();
             boolean aReviewed = false, bReviewed = false;
 
-            Node<Review> rNode = p.getReviews().getHead();
-            while (rNode != null) {
-                int cid = rNode.getData().getCustomerId();
-                if (cid == c1) aReviewed = true;
-                if (cid == c2) bReviewed = true;
-                if (aReviewed && bReviewed) break;
-                rNode = rNode.getNext();
-            } // end while
+            LinkedList<Review> rList = p.getReviews();
+            if (!rList.empty()) {
+                rList.findFirst();
+                while (true) {
+                    Review r = rList.retrieve();
+                    int cid = r.getCustomerId();
+                    if (cid == c1) aReviewed = true;
+                    if (cid == c2) bReviewed = true;
+                    if (aReviewed && bReviewed) break;
+
+                    if (rList.last()) break;
+                    rList.findNext();
+                } // end while
+            } // end if
 
             if (aReviewed && bReviewed && p.getAverageRating() > minAvg) {
                 System.out.println(p.getName() + " (avg=" + p.getAverageRating() + ")");
                 found = true;
             } // end if
-            pNode = pNode.getNext();
+
+            if (list.last()) break;
+            list.findNext();
         } // end while
 
-        if (!found) { System.out.println("No common reviewed products above " + minAvg); } // end if
+        if (!found)
+            System.out.println("No common reviewed products above " + minAvg);
     } // end printCommonReviewedAbove
 
-    // Remove a product by ID (composition → clears its reviews), returns true if removed
     public static boolean removeById(LinkedList<Product> list, int pid) {
         Product target = searchById(list, pid);
-        if (target == null) { return false; } // end if
-        // clear reviews (composition)
-        Node<Review> r = target.getReviews().getHead();
-        while (r != null) {
-            target.getReviews().remove(r.getData());
-            r = target.getReviews().getHead();
+        if (target == null) return false;
+
+        LinkedList<Review> revs = target.getReviews();
+        while (!revs.empty()) {
+            revs.findFirst();
+            revs.remove();
         } // end while
-        list.remove(target);
-        return true;
+
+        list.findFirst();
+        while (true) {
+            Product p = list.retrieve();
+            if (p == target) {
+                list.remove();
+                return true;
+            } // end if
+            if (list.last()) break;
+            list.findNext();
+        } // end while
+        return false;
     } // end removeById
 
-    // Print all products (quick overview)
-    public static void printAll(LinkedList<Product> list) {
-        System.out.println("Products (" + list.size() + "):");
-        Node<Product> p = list.getHead();
-        while (p != null) {
-            Product pp = p.getData();
-            System.out.println(pp.getProductId() + " - " + pp.getName() + " price=" + pp.getPrice() + " stock=" + pp.getStock());
-            p = p.getNext();
-        } // end while
-    } // end printAll
+   
 
-    // ------------------- Display -------------------
     public String toString() {
         return productId + " - " + name + " (price: " + price + ", stock: " + stock + ")";
     } // end toString
