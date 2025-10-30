@@ -36,52 +36,61 @@ public class Main {
         Scanner sc = new Scanner(System.in);
         int choice = -1;
         while (choice != 0) {
-            System.out.println("\n========= MENU =========");
-            System.out.println("1.  Add Product");
-            System.out.println("2.  Add Customer");
-            System.out.println("3.  Place Order");
-            System.out.println("4.  Add Review to Product");
-            System.out.println("5.  Extract Reviews by Customer");
-            System.out.println("6.  Top 3 Products by Average Rating");
-            System.out.println("7.  Orders Between Two Dates");
-            System.out.println("8.  Common Reviewed Products (avg > 4)");
-            System.out.println("9.  View Product Details + Reviews");
-            System.out.println("10. Update Product (price/stock)");
-            System.out.println("11. Edit Review by reviewId");
-            System.out.println("12. Cancel an Order");
-            System.out.println("13. Add Product to Existing Order");
-            System.out.println("14. List Customer Orders");
-            System.out.println("15. List Customer Reviews");
-            System.out.println("16. Remove Product by ID");
-            System.out.println("17. Remove Customer by ID");
-            System.out.println("18. Update Order Status");
-            System.out.println("0.  Exit");
-            System.out.print("Enter choice: ");
+        	System.out.println("\n========= MENU =========");
+        	System.out.println("1.  Add Product");
+        	System.out.println("2.  Add Customer");
+        	System.out.println("3.  Place Order");
+        	System.out.println("4.  Add Review to Product");
+        	System.out.println("5.  Top 3 Products by Average Rating");
+        	System.out.println("6.  Orders Between Two Dates");
+        	System.out.println("7.  Common Reviewed Products (avg > 4)");
+        	System.out.println("8.  View Product Details + Reviews");
+        	System.out.println("9.  Update Product (price/stock)");
+        	System.out.println("10. Edit Review by reviewId");
+        	System.out.println("11. Cancel an Order");
+        	System.out.println("12. Add Product to Existing Order");
+        	System.out.println("13. List Customer Orders");
+        	System.out.println("14. List Customer Reviews");
+        	System.out.println("15. Remove Product by ID");
+        	System.out.println("16. Remove Customer by ID");
+        	System.out.println("17. Update Order Status");
+        	System.out.println("0.  Exit");
+        	System.out.print("Enter choice: ");
 
-            if (!sc.hasNextInt()) { sc.nextLine(); continue; } // end if not int
-            choice = sc.nextInt(); sc.nextLine();
+        	if (!sc.hasNextInt()) { 
+        	    sc.nextLine(); 
+        	    continue; 
+        	} // end if not int
 
-            switch (choice) {
-                case 1:  addProduct(sc); break; // end case 1
-                case 2:  addCustomer(sc); break; // end case 2
-                case 3:  placeOrder(sc); break; // end case 3
-                case 4:  addReview(sc); break; // end case 4
-                case 5:  extractReviewsByCustomer(sc); break; // end case 5
-                case 6:  Product.printTopNByAverageRating(products, 3); break; // end case 6
-                case 7:  ordersBetweenDates(sc); break; // end case 7
-                case 8:  commonReviewedProducts(sc); break; // end case 8
-                case 9:  viewProductDetails(sc); break; // end case 9
-                case 10: updateProduct(sc); break; // end case 10
-                case 11: editReviewById(sc); break; // end case 11
-                case 12: cancelOrder(sc); break; // end case 12
-                case 13: addProductToExistingOrder(sc); break; // end case 13
-                case 14: listCustomerOrders(sc); break; // end case 14
-                case 15: listCustomerReviews(sc); break; // end case 15
-                case 16: removeProductById(sc); break; // end case 16
-                case 17: removeCustomerById(sc); break; // end case 17
-                case 18: updateOrderStatus(sc); break; // end case 18
-                case 0:  System.out.println("Program ended"); break; // end case 0
-                default: System.out.println("Invalid choice"); break; // end default
+        	choice = sc.nextInt(); 
+        	sc.nextLine();
+
+        	switch (choice) {
+        	    case 1:  addProduct(sc); break;
+        	    case 2:  addCustomer(sc); break;
+        	    case 3:  placeOrder(sc); break;
+        	    case 4:  addReview(sc); break;
+        	    case 5:  Product.printTopNByAverageRating(products, 3); break;
+        	    case 6:  ordersBetweenDates(sc); break;
+        	    case 7:  commonReviewedProducts(sc); break;
+        	    case 8:  viewProductDetails(sc); break;
+        	    case 9:  updateProduct(sc); break;
+        	    case 10: editReviewById(sc); break;
+        	    case 11: cancelOrder(sc); break;
+        	    case 12: addProductToExistingOrder(sc); break;
+        	    case 13: listCustomerOrders(sc); break;
+        	    case 14: listCustomerReviews(sc); break;
+        	    case 15: removeProductById(sc); break;
+        	    case 16: removeCustomerById(sc); break;
+        	    case 17: updateOrderStatus(sc); break;
+        	    case 0:  
+        	        System.out.println("Program ended"); 
+        	        break;
+        	    default: 
+        	        System.out.println("Invalid choice"); 
+        	        break;
+        	
+
             } // end switch
         } // end while
         sc.close();
