@@ -130,19 +130,7 @@ public class Product {
         return null;
     } // end searchById
 
-    public static Product searchByName(LinkedList<Product> list, String targetName) {
-        if (list.empty()) return null;
-
-        list.findFirst();
-        while (true) {
-            Product p = list.retrieve();
-            if (p.getName().equalsIgnoreCase(targetName)) return p;
-
-            if (list.last()) break;
-            list.findNext();
-        } // end while
-        return null;
-    } // end searchByName
+   
 
     public static void printTopNByAverageRating(LinkedList<Product> list, int n) {
         Product a = null, b = null, c = null;
