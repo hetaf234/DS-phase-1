@@ -49,6 +49,7 @@ public class LinkedList<T> {
         } // end else
     } // end insert
 
+    
     public void remove() {
         if (current == head) {
             head = head.next;

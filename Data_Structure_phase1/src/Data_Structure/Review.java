@@ -2,14 +2,13 @@ package Data_Structure;
 
 public class Review {
 
-    // ------------------- Attributes -------------------
     private int reviewId;
     private int productId;
     private int customerId;
     private int rating;   // 1–5
     private String comment;
 
-    // ------------------- Constructor -------------------
+    // Constructor 
     public Review(int reviewId, int productId, int customerId, int rating, String comment) {
         this.reviewId = reviewId;
         this.productId = productId;
@@ -18,14 +17,14 @@ public class Review {
         this.comment = comment;
     } // end constructor
 
-    // ------------------- Getters -------------------
+    //Getters
     public int getReviewId() { return reviewId; } // end getReviewId
     public int getProductId() { return productId; } // end getProductId
     public int getCustomerId() { return customerId; } // end getCustomerId
     public int getRating() { return rating; } // end getRating
     public String getComment() { return comment; } // end getComment
 
-    // ------------------- Setters -------------------
+    // Setters
     public void setRating(int rating) {
         // rating must stay between 1 and 5
         if (rating < 1) rating = 1;
@@ -37,7 +36,7 @@ public class Review {
         this.comment = c;
     } // end setComment
 
-    // ------------------- Operations -------------------
+    
 
     // Edit this review (update rating and/or comment)
     public void editReview(Integer newRating, String newComment) {
@@ -49,7 +48,7 @@ public class Review {
         } // end if
     } // end editReview
 
-    // ------------------- Display -------------------
+
     public String toString() {
         return "Review{id=" + reviewId +
                ", productId=" + productId +

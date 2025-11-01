@@ -5,7 +5,6 @@ import java.text.SimpleDateFormat;
 
 public class Order {
 
-    // ------------------- Attributes -------------------
     private int orderId;
     private Customer customer;
     private LinkedList<Product> products = new LinkedList<>();
@@ -14,7 +13,7 @@ public class Order {
     private double totalPrice;
     private String status; // Pending, Shipped, Delivered, Canceled
 
-    // ------------------- Constructor -------------------
+    // Constructor
     public Order(int orderId, Customer customer, Date date) {
         this.orderId = orderId;
         this.customer = customer;
@@ -23,7 +22,7 @@ public class Order {
         this.totalPrice = 0.0;
     } // end constructor
 
-    // ------------------- Getters/Setters -------------------
+    // Getters/Setters
     public int getOrderId() { return orderId; } // end getOrderId
     public Customer getCustomer() { return customer; } // end getCustomer
     public Date getOrderDate() { return orderDate; } // end getOrderDate
@@ -32,7 +31,6 @@ public class Order {
     public String getStatus() { return status; } // end getStatus
     public void setStatus(String newStatus) { this.status = newStatus; } // end setStatus
 
-    // ------------------- Per-order Operations -------------------
     public void addProduct(Product p, int qty) {
         if (p == null || qty <= 0) return;
 
@@ -82,7 +80,6 @@ public class Order {
         System.out.println("Total: " + totalPrice);
     } // end printOrderDetails
 
-    // ------------------- Static Operations on Lists -------------------
 
     public static Order searchById(LinkedList<Order> list, int targetId) {
         if (list.empty()) return null;
@@ -139,7 +136,6 @@ public class Order {
 
     
 
-    // ------------------- Display -------------------
     public String toString() {
         return "Order{" +
                 "id=" + orderId +

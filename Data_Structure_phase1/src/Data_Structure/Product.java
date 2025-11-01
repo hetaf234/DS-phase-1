@@ -2,14 +2,14 @@ package Data_Structure;
 
 public class Product {
 
-    // ------------------- Attributes -------------------
+    // Attributes 
     private int productId;
     private String name;
     private double price;
     private int stock;
     private LinkedList<Review> reviews = new LinkedList<>(); // list of product reviews
 
-    // ------------------- Constructor -------------------
+    // Constructor
     public Product(int productId, String name, double price, int stock) {
         this.productId = productId;
         this.name = name;
@@ -17,7 +17,7 @@ public class Product {
         this.stock = stock;
     } // end constructor
 
-    // ------------------- Getters & Setters -------------------
+    // Getters & Setters 
     public int getProductId() { return productId; } // end getProductId
     public String getName() { return name; } // end getName
     public double getPrice() { return price; } // end getPrice
@@ -26,7 +26,7 @@ public class Product {
     public void setPrice(double newPrice) { this.price = newPrice; } // end setPrice
     public void setStock(int newStock) { this.stock = newStock; } // end setStock
 
-    // ------------------- Per-product Operations -------------------
+    // Per-product Operations
     public void addReview(Review r) {
         if (r != null && r.getProductId() == this.productId) {
             reviews.insert(r);
@@ -115,7 +115,7 @@ public class Product {
         } // end while
     } // end printDetails
 
-    // ------------------- Static Operations -------------------
+
     public static Product searchById(LinkedList<Product> list, int id) {
         if (list.empty()) return null;
 
@@ -234,4 +234,5 @@ public class Product {
     public String toString() {
         return productId + " - " + name + " (price: " + price + ", stock: " + stock + ")";
     } // end toString
+    
 } // end Product class

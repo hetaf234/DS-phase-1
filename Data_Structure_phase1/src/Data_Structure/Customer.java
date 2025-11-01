@@ -2,21 +2,20 @@ package Data_Structure;
 
 public class Customer {
 
-    // ------------------- Attributes -------------------
     private int customerId;
     private String name;
     private String email;
     private LinkedList<Order> myOrders = new LinkedList<>();
     private LinkedList<Review> myReviews = new LinkedList<>();
 
-    // ------------------- Constructor -------------------
+    // Constructor 
     public Customer(int customerId, String name, String email) {
         this.customerId = customerId;
         this.name = name;
         this.email = email;
     } // end constructor
 
-    // ------------------- Getters/Setters -------------------
+    // Getters/Setters 
     public int getCustomerId() { return customerId; } // end getCustomerId
     public String getName() { return name; } // end getName
     public String getEmail() { return email; } // end getEmail
@@ -25,7 +24,6 @@ public class Customer {
     public void setName(String newName) { this.name = newName; } // end setName
     public void setEmail(String newEmail) { this.email = newEmail; } // end setEmail
 
-    // ------------------- Per-customer Operations -------------------
     public void placeOrder(Order order) {
         if (order != null) { myOrders.insert(order); } // end if
     } // end placeOrder
@@ -71,8 +69,7 @@ public class Customer {
             myReviews.findNext();
         } // end while
     } // end printMyReviews
-
-    // ------------------- Static Operations on Lists (class-level) -------------------
+    
 
     public static Customer searchById(LinkedList<Customer> list, int id) {
         if (list.empty()) return null;

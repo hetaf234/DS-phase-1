@@ -8,17 +8,14 @@ import java.util.Scanner;
 
 public class Main {
 
-    // ------------------- Global data (custom LinkedList) -------------------
     static LinkedList<Product>  products  = new LinkedList<>();
     static LinkedList<Customer> customers = new LinkedList<>();
     static LinkedList<Order>    orders    = new LinkedList<>();
     static final SimpleDateFormat DF = new SimpleDateFormat("dd/MM/yyyy");
 
-    // NOTE: helpers added (slide-style traversal, no size())
-    // - countList(list): counts elements by traversing (used for loaded counts + new IDs)
-    // - countReviews(list): counts reviews (used to create reviewId)
+    // countList(list): counts elements by traversing (used for loaded counts + new IDs)
+    // countReviews(list): counts reviews (used to create reviewId)
 
-    // ------------------- Main ---------------------
     public static void main(String[] args) {
         // Load CSVs (your exact paths)
         loadProducts("src/Data_Structure/prodcuts.csv");   // file name kept as you asked
@@ -96,7 +93,6 @@ public class Main {
         sc.close();
     } // end main
 
-    // ------------------- MENU OPS (create/interactive + light glue) -------------------
 
     static void addProduct(Scanner sc) {
         System.out.print("Product ID: ");
@@ -324,8 +320,8 @@ public class Main {
 
         o.updateStatus(st);
     } // end updateOrderStatus
-    // ------------------- CSV LOADERS -------------------
-    // products.csv: productId,name,price,stock
+    // CSV Loaders 
+    // products.csv: (productId,name,price,stock)
     static void loadProducts(String path) {
         try (BufferedReader br = new BufferedReader(new FileReader(path))) {
             br.readLine(); // skip header
@@ -344,7 +340,7 @@ public class Main {
         } // end try-catch
     } // end loadProducts
 
-    // customers.csv: customerId,name,email
+    // customers.csv: (customerId,name,email)
     static void loadCustomers(String path) {
         try (BufferedReader br = new BufferedReader(new FileReader(path))) {
             br.readLine(); // skip header
@@ -460,7 +456,6 @@ public class Main {
         } // end try-catch
     } // end loadReviews
 
-    // ------------------- Helpers (slide-style traversal) -------------------
     static int countList(LinkedList<?> list) {
         if (list.empty()) return 0;
         int cnt = 0;
