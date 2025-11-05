@@ -6,14 +6,13 @@ public class LinkedList<T> {
 
     public LinkedList() {
         head = current = null;
-    } // end constructor
-
+    } 
     public boolean empty() {
         return head == null;
     } // end empty
 
     public boolean full() {
-        return false; // linked list never full
+        return false; 
     } // end full
 
     public void findFirst() {
