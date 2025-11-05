@@ -31,7 +31,11 @@ public class Order {
     public String getStatus() { return status; } // end getStatus
     public void setStatus(String newStatus) { this.status = newStatus; } // end setStatus
 
-    public void addProduct(Product p, int qty) {
+    public void setTotalPrice(double totalPrice) {
+		this.totalPrice = totalPrice;
+	}
+
+	public void addProduct(Product p, int qty) {
         if (p == null || qty <= 0) return;
 
         products.insert(p);
@@ -137,10 +141,11 @@ public class Order {
     
 
     public String toString() {
+    	SimpleDateFormat df=new SimpleDateFormat("dd/MM/yyyy");
         return "Order{" +
                 "id=" + orderId +
                 ", customerId=" + (customer != null ? customer.getCustomerId() : "null") +
-                ", date=" + orderDate +
+                ", date=" + df.format(orderDate) +
                 ", total=" + totalPrice +
                 ", status='" + status + '\'' +
                 '}';
