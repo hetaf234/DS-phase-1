@@ -70,6 +70,13 @@ public void editReview(Integer newRating, String newComment) {
 }//editReview
 
 
+@Override
+public String toString() {
+	return "\n reviewId=" + reviewId + "\n productId=" + productId + "\n customerId=" + customerId + "\n rating="
+			+ rating + "\n comment=" + comment;
+}
+
+
 
 
 

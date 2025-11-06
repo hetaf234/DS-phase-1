@@ -65,8 +65,8 @@ public class Main {
         	
         	
         	System.out.println("15. Remove Product by ID");
-        	System.out.println("16. Remove Customer by ID");
-        	System.out.println("17. Update Order Status");
+        	System.out.println("16. Update Order Status");
+        
         	System.out.println("0.  Exit");
         	System.out.print("Enter choice: ");
 
@@ -93,8 +93,8 @@ public class Main {
         	    case 13: listCustomerOrders(sc); break;
         	    case 14: listCustomerReviews(sc); break;
         	    case 15: removeProductById(sc); break;
-        	    case 16: removeCustomerById(sc); break;
-        	    case 17: updateOrderStatus(sc); break;
+        	    case 16: updateOrderStatus(sc); break;
+        	   
         	    case 0:  
         	        System.out.println("Program ended"); 
         	        break;
@@ -382,13 +382,8 @@ public class Main {
         else    { System.out.println("Product not found."); }
     } // end removeProductById
 
-    static void removeCustomerById(Scanner sc) {
-        System.out.print("Customer ID to remove: ");
-        int cid = sc.nextInt(); 
-        boolean ok = Customer.removeById(customers, cid);
-        if (ok) { System.out.println("Customer removed."); }
-        else    { System.out.println("Customer not found."); }
-    } // end removeCustomerById
+   
+    
     static void updateOrderStatus(Scanner sc) {
         System.out.print("Order ID: ");
         int oid = sc.nextInt(); 
