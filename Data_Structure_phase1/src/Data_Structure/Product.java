@@ -283,7 +283,7 @@ this.stock=stock;
     		    
     		}//end if
     		
-    		if ((aReviewed && bReviewed && p.getAverageRating() > minAvg) {
+    		if (aReviewed && bReviewed && p.getAverageRating() > minAvg) {
     			System.out.println(p.getName() + " (avg=" + p.getAverageRating() + ")");
     			found=true;
     		}//end if
@@ -322,7 +322,7 @@ this.stock=stock;
 		    
 		}//end if
 
-		if ((aReviewed && bReviewed && p.getAverageRating() > minAvg) {
+		if (aReviewed && bReviewed && p.getAverageRating() > minAvg) {
 			System.out.println(p.getName() + " (avg=" + p.getAverageRating() + ")");
 			found=true;
 		}//end if
