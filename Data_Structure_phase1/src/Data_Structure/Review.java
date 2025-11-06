@@ -1,59 +1,101 @@
-package Data_Structure;
 
-public class Review {
-
-    private int reviewId;
-    private int productId;
-    private int customerId;
-    private int rating;   // 1–5
-    private String comment;
-
-    // Constructor 
+    package Data_Structure;
+    
+    public class Review{
+    	private int reviewId;
+    	private int productId;
+    	private int customerId;
+    	private int rating;
+    	private String comment;
+    	
+    	
+    	
     public Review(int reviewId, int productId, int customerId, int rating, String comment) {
-        this.reviewId = reviewId;
-        this.productId = productId;
-        this.customerId = customerId;
-        setRating(rating);  // ensure valid range
-        this.comment = comment;
-    } // end constructor
+			super();
+			this.reviewId = reviewId;
+			this.productId = productId;
+			this.customerId = customerId;
+			this.rating = rating;
+			this.comment = comment;
+		}//constructor 
 
-    //Getters
-    public int getReviewId() { return reviewId; } // end getReviewId
-    public int getProductId() { return productId; } // end getProductId
-    public int getCustomerId() { return customerId; } // end getCustomerId
-    public int getRating() { return rating; } // end getRating
-    public String getComment() { return comment; } // end getComment
 
-    // Setters
-    public void setRating(int rating) {
-        // rating must stay between 1 and 5
-        if (rating < 1) rating = 1;
-        if (rating > 5) rating = 5;
-        this.rating = rating;
-    } // end setRating
+	public int getReviewId() {
+		return reviewId;
+	}
 
-    public void setComment(String c) {
-        this.comment = c;
-    } // end setComment
+	public void setReviewId(int reviewId) {
+		this.reviewId = reviewId;
+	}
 
+	public int getProductId() {
+		return productId;
+	}
+
+	public void setProductId(int productId) {
+		this.productId = productId;
+	}
+
+	public int getCustomerId() {
+		return customerId;
+	}
+
+	public void setCustomerId(int customerId) {
+		this.customerId = customerId;
+	}
+
+	public String getComment() {
+		return comment;
+	}
+
+	public void setComment(String comment) {
+		this.comment=comment;
+	}
+	public int getRating() {
+		return rating;
+	}
+public void setRating(int rating) {
+	this.rating=rating;
+}
+
+public void editReview(Integer newRating, String newComment) {
+	if(newRating!=null) {
+		setRating(newRating);
+	}
+	if(newComment!=null) {
+		setComment(newComment);
+	}
+	
+	
+}//editReview
+
+
+
+
+
+
+
+
+	}//end of review class 
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+   
+
+ 
     
 
-    // Edit this review (update rating and/or comment)
-    public void editReview(Integer newRating, String newComment) {
-        if (newRating != null) {
-            setRating(newRating);
-        } // end if
-        if (newComment != null && newComment.length() > 0) {
-            setComment(newComment);
-        } // end if
-    } // end editReview
+  
 
 
-    public String toString() {
-        return "Review{id=" + reviewId +
-               ", productId=" + productId +
-               ", customerId=" + customerId +
-               ", rating=" + rating +
-               ", comment='" + comment + "'}";
-    } // end toString
-} // end Review class
+    
+  
