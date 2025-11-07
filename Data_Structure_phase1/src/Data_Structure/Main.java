@@ -66,6 +66,9 @@ public class Main {
         	
         	System.out.println("15. Remove Product by ID");
         	System.out.println("16. Update Order Status");
+        	System.out.println("17. Search Product by Name");
+        	System.out.println("18. Search Product by ID");
+
         
         	System.out.println("0.  Exit");
         	System.out.print("Enter choice: ");
@@ -94,7 +97,8 @@ public class Main {
         	    case 14: listCustomerReviews(sc); break;
         	    case 15: removeProductById(sc); break;
         	    case 16: updateOrderStatus(sc); break;
-        	   
+        	    case 17: searchProductByName(sc); break;
+        	    case 18: searchProductById(sc); break;
         	    case 0:  
         	        System.out.println("Program ended"); 
         	        break;
@@ -562,5 +566,30 @@ public class Main {
     } // end countList
 
 
+    static void searchProductById(Scanner sc) {
+    	System.out.print("Enter Product ID: ");
+    	int pid=sc.nextInt();
+    	sc.nextLine();
+    	
+    	Product p=Product.searchById(products, pid);
+    	if (p==null) {
+        	System.out.println("Product not found.");
+        	return;
+    	}//end if
+    	p.printDetails();
+    }//end searchProductById()
    
+    static void searchProductByName(Scanner sc) {
+    	System.out.print("Enter Product Name: ");
+    	String name=sc.nextLine();
+    	
+    	Product p=Product.searchByName(products, name);
+    	if (p==null) {
+        	System.out.println("Product not found.");
+        	return;
+    	}//end if
+    	p.printDetails();
+    }//end searchProductByName()
+
+    
 } // end Main class
