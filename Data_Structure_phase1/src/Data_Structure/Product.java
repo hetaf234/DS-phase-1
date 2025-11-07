@@ -53,28 +53,7 @@ this.stock=stock;
  		   reviews.insert(r);
     } // end addReview
 
-    public boolean removeReviewById(int reviewId) {
-    	if (reviews.empty())
-    		return false;
-    	
-    	reviews.findFirst();
-    	
-		while (!reviews.last()) {
-		Review r=reviews.retrieve();
-		if (r.getReviewId()==reviewId) {
-			reviews.remove();
-			return true;
-		} //end if
-		reviews.findNext();
-		}
-		
-		Review r=reviews.retrieve();
-		if(r.getReviewId() == reviewId ) {
-			reviews.remove();
-			return true;
-		}
-    return false;
-    }//end removeReviewById()
+   
 
     public boolean editReviewById(int reviewId, Integer newRating, String newComment) {
     	if (reviews.empty())

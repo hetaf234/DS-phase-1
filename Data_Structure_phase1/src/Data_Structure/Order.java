@@ -1,153 +1,177 @@
-package Data_Structure;
 
+package Data_Structure;
 import java.util.Date;
 import java.text.SimpleDateFormat;
 
-public class Order {
+
+
+public class Order{
+    
+ 
+   
 
     private int orderId;
     private Customer customer;
-    private LinkedList<Product> products = new LinkedList<>();
-    private LinkedList<Integer> quantities = new LinkedList<>();
+    private LinkedList<Product>products=new LinkedList<>();
+  
     private Date orderDate;
     private double totalPrice;
-    private String status; // Pending, Shipped, Delivered, Canceled
+    private String status;
+    
+    public Order(int orderId, Customer customer, Date orderDate) {
+		
+		this.orderId = orderId;
+		this.customer = customer;
+		this.orderDate = orderDate;
+		status="Pending"; //default value when creating an order
+		totalPrice=0;
+	}//constructor
 
-    // Constructor
-    public Order(int orderId, Customer customer, Date date) {
-        this.orderId = orderId;
-        this.customer = customer;
-        this.orderDate = date;
-        this.status = "Pending";
-        this.totalPrice = 0.0;
-    } // end constructor
+	public int getOrderId() {
+		return orderId;
+	}
 
-    // Getters/Setters
-    public int getOrderId() { return orderId; } // end getOrderId
-    public Customer getCustomer() { return customer; } // end getCustomer
-    public Date getOrderDate() { return orderDate; } // end getOrderDate
-    public LinkedList<Product> getProducts() { return products; } // end getProducts
-    public double getTotalPrice() { return totalPrice; } // end getTotalPrice
-    public String getStatus() { return status; } // end getStatus
-    public void setStatus(String newStatus) { this.status = newStatus; } // end setStatus
+	public void setOrderId(int orderId) {
+		this.orderId = orderId;
+	}
 
-    public void setTotalPrice(double totalPrice) {
+	public Customer getCustomer() {
+		return customer;
+	}
+
+	public void setCustomer(Customer customer) {
+		this.customer = customer;
+	}
+
+	public LinkedList<Product> getProducts() {
+		return products;
+	}
+
+	public void setProducts(LinkedList<Product> products) {
+		this.products = products;
+	}
+
+	public Date getOrderDate() {
+		return orderDate;
+	}
+
+	public void setOrderDate(Date orderDate) {
+		this.orderDate = orderDate;
+	}
+
+	public double getTotalPrice() {
+		return totalPrice;
+	}
+
+	public void setTotalPrice(double totalPrice) {
 		this.totalPrice = totalPrice;
 	}
 
-	public void addProduct(Product p, int qty) {
-        if (p == null || qty <= 0) return;
+	public String getStatus() {
+		return status;
+	}
 
-        products.insert(p);
-        quantities.insert(qty);
-        totalPrice += p.getPrice() * qty;
-    } // end addProduct
+	public void setStatus(String status) {
+		this.status = status;
+	}
 
+	
+	public void addProduct(Product p) {
+		if(p==null) return;
+		products.insert(p);
+		totalPrice+=p.getPrice();
+	}//addProduct
+	
     public void cancel() {
-        if (!status.equals("Canceled")) {
-            status = "Canceled";
-            System.out.println("Order #" + orderId + " has been canceled.");
-        } else {
-            System.out.println("Order #" + orderId + " is already canceled.");
-        } // end if-else
-    } // end cancel
-
+    	if(status.equals("Canceled")) 
+    		System.out.println("This orderd "+orderId+"  is already cancelled.");
+    	else {
+    		status="Canceled";
+    		System.out.println("This order "+orderId+" has been canceled successfully.");
+    	}//else
+    		
+    }//cancel
+    
     public void updateStatus(String newStatus) {
-        if (newStatus == null) return;
-        status = newStatus;
-        System.out.println("Order #" + orderId + " status updated to: " + status);
-    } // end updateStatus
+    	if(newStatus==null) return;
+    	status=newStatus;
+    	System.out.println("this order "+orderId+" status has been updated to:"+status);
+    }//updateStatus
+    
+    public static Order searchById(LinkedList<Order>list, int targetId) {
+    	if (list.empty())
+    		return null;
+    	list.findFirst();
+    	while(!list.last()) {
+    		Order o=list.retrieve();
+    		if(o.getOrderId()==targetId)
+    			return o;
+    		list.findNext();
+    	}//end while
+    	Order o=list.retrieve();
+		if(o.getOrderId()==targetId)
+			return o;
+		else
+			return null;
+    }//searchById
+    
+  public static void printBetweenDates(LinkedList<Order>list,Date start,Date end) {
+	  SimpleDateFormat df=new SimpleDateFormat("dd/MM/yyyy");
+	  System.out.println("Orderd between :"+df.format(start)+" and :" +df.format(end));
+	  boolean any=false;
+	  if(list.empty()) {
+		  System.out.println("No order between those dates");
+		  return;
+	  }//if
+	  list.findFirst();
+	  while (!list.last()) {
+		  Order o=list.retrieve();
+		  Date d=o.getOrderDate();
+		  
+		  if(!d.before(start)&&!d.after(end)) {
+			  System.out.println(o);
+			  any=true;
+		  }//end if (order found)
+		  list.findNext();
+	  }//while
+	  //last order in the list 
+	  Order o=list.retrieve();
+	  Date d=o.getOrderDate();
+	  
+	  if(!d.before(start)&&!d.after(end)) {
+		  System.out.println(o);
+		  any=true;
+	  }//end if (order found)
+	  if(!any)
+		  System.out.println("No order between those dates");
+	  
+	  
+  }//printBetweenDates
 
-    public void printOrderDetails() {
-        SimpleDateFormat df = new SimpleDateFormat("dd/MM/yyyy");
-        System.out.println("Order ID: " + orderId);
-        System.out.println("Customer: " + (customer != null ? customer.getName() : "N/A"));
-        System.out.println("Date: " + (orderDate != null ? df.format(orderDate) : "N/A"));
-        System.out.println("Status: " + status);
-        System.out.println("Items:");
+  public static boolean addProductToOrderById(LinkedList<Order> orders, LinkedList<Product>products,int orderId,int productId) {
+	  Order o=searchById(orders,orderId);
+	  if (o==null) return false;
+	  
+	  Product p=Product.searchById(products,productId);
+	  if(p==null) return false;
+	  
+	  o.addProduct(p);
+	  return true;
+  }//addProductToOrderById
 
-        products.findFirst();
-        quantities.findFirst();
+  @Override
+  public String toString() {
+	  SimpleDateFormat df = new SimpleDateFormat("dd/MM/yyyy");
+	  
+	return "orderId=" + orderId + "\n customer=" + customer + "\n products=" + products + "\n orderDate="
+			+ df.format(orderDate) + "\n totalPrice=" + totalPrice + "\n status=" + status ;
+  }//tostring
 
-        while (true) {
-            Product p = products.retrieve();
-            int qty = quantities.retrieve();
+   
 
-            System.out.println("  - " + p.getName() + " x" + qty + " = " + (p.getPrice() * qty));
-
-            if (products.last() || quantities.last()) break;
-
-            products.findNext();
-            quantities.findNext();
-        } // end while
-
-        System.out.println("Total: " + totalPrice);
-    } // end printOrderDetails
-
-
-    public static Order searchById(LinkedList<Order> list, int targetId) {
-        if (list.empty()) return null;
-
-        list.findFirst();
-        while (true) {
-            Order o = list.retrieve();
-            if (o.getOrderId() == targetId) return o;
-
-            if (list.last()) break;
-            list.findNext();
-        } // end while
-        return null;
-    } // end searchById
-
-    public static void printBetweenDates(LinkedList<Order> list, Date start, Date end) {
-        SimpleDateFormat df = new SimpleDateFormat("dd/MM/yyyy");
-        System.out.println("Orders between " + df.format(start) + " and " + df.format(end));
-        boolean any = false;
-
-        if (list.empty()) {
-            System.out.println("No orders found in this range.");
-            return;
-        } // end if
-
-        list.findFirst();
-        while (true) {
-            Order o = list.retrieve();
-            Date d = o.getOrderDate();
-
-            if (!d.before(start) && !d.after(end)) {
-                System.out.println(o);
-                any = true;
-            } // end if
-
-            if (list.last()) break;
-            list.findNext();
-        } // end while
-
-        if (!any) System.out.println("No orders found in this range.");
-    } // end printBetweenDates
-
-    public static boolean addProductToOrderById(LinkedList<Order> orders, LinkedList<Product> products,int orderId, int productId, int qty) {
-       
-        Order o = searchById(orders, orderId);
-        if (o == null) return false;
-
-        Product p = Product.searchById(products, productId);
-        if (p == null) return false;
-
-        o.addProduct(p, qty);
-        return true;
-    } // end addProductToOrderById
-
+  
+    
     
 
-    public String toString() {
-    	SimpleDateFormat df=new SimpleDateFormat("dd/MM/yyyy");
-        return "Order{" +
-                "id=" + orderId +
-                ", customerId=" + (customer != null ? customer.getCustomerId() : "null") +
-                ", date=" + df.format(orderDate) +
-                ", total=" + totalPrice +
-                ", status='" + status + '\'' +
-                '}';
-    } // end toString
+    
 } // end Order class

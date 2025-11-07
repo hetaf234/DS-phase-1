@@ -159,13 +159,10 @@ public class Main {
             if (p == null) {
                 System.out.println("Product not found");
             } else {// product is found 
-                System.out.print("Quantity: ");
-                int q = sc.nextInt(); 
-                //cleaning
-                sc.nextLine();
+              
                 
-                order.addProduct(p, q);
-                System.out.println("Added " + q + " x " + p.getName());
+                order.addProduct(p);
+                System.out.println("Added"+ p.getName());
             } // end if-else
 
             System.out.print("Add another? (y/n): ");
@@ -342,10 +339,9 @@ public class Main {
         int oid = sc.nextInt(); 
         System.out.print("Product ID: ");
         int pid = sc.nextInt(); 
-        System.out.print("Quantity: ");
-        int q = sc.nextInt(); 
+         
 
-        boolean ok = Order.addProductToOrderById(orders, products, oid, pid, q);
+        boolean ok = Order.addProductToOrderById(orders, products, oid, pid);
         if (ok) { 
         	System.out.println("Added product to order"); 
         } else { 
@@ -497,7 +493,7 @@ public class Main {
                         int pid = Integer.parseInt(pairs[j].trim());
                         
                         Product p = Product.searchById(products, pid);
-                        if (p != null) { order.addProduct(p, 1); } // end if
+                        if (p != null) { order.addProduct(p); } // end if
                     } // end for
                 } // end if items
 
