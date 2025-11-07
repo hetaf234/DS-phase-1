@@ -60,7 +60,7 @@ this.stock=stock;
     		return false;
     	reviews.findFirst();
     	
-    	while (reviews.last()) {
+    	while (!reviews.last()) {
     		Review r=reviews.retrieve();
     		if (r.getReviewId() == reviewId) {
     			if (newRating!=null)
@@ -82,6 +82,7 @@ this.stock=stock;
     	return false;
     }
    
+    
     public double getAverageRating() {
     	if (reviews.empty()) 
     		return 0;
@@ -106,27 +107,30 @@ this.stock=stock;
     } //end getAverageRating()
     
 
+    
     public boolean isOutOfStock() {
     	return stock <=0;
     }//end isOutOfStock()
 
+    
     public void printDetails() {
-    	System.out.print("Product: " + name + ", price=" + price + ", stock=" + stock);
-    	System.out.print("Average rating: " + getAverageRating());
+    	System.out.println("Product: " + name + ", price=" + price + ", stock=" + stock);
+    	System.out.println("Average rating: " + getAverageRating());
     	
     	if (reviews.empty()) {
     		System.out.println("No reviews for this product.");
     		return;
     	}//end if
-    	
     	reviews.findFirst();
     	while (!reviews.last()) {
     		Review rev=reviews.retrieve();
     		System.out.println("Review#" + rev.getReviewId() + " by C" + rev.getCustomerId() + " rating=" + rev.getRating() + " comment=" + rev.getComment());
+    		reviews.findNext();
     	}
     	Review rev=reviews.retrieve();
 		System.out.println("Review#" + rev.getReviewId() + " by C" + rev.getCustomerId() + " rating=" + rev.getRating() + " comment=" + rev.getComment());	
     }//end printDetails()
+    
     
     
     public void updateProduct(double newPrice, int newStock) {
@@ -136,6 +140,8 @@ this.stock=stock;
     		this.stock=newStock;
     }//end updateProduct()
  
+    
+    
     public static Product searchById(LinkedList<Product> list, int id)  {
     	if (list.empty())
     		return null;
@@ -155,6 +161,27 @@ this.stock=stock;
 		return null;
     }//end searchById()
 
+    
+    
+    public static Product searchByName(LinkedList<Product> list, String name) {
+    	if (list.empty())
+    		return null;
+    	
+    	list.findFirst();
+    	while (!list.last()) {
+    		Product p=list.retrieve();
+    		if (p.getName().equalsIgnoreCase(name))
+    			return p;
+    		
+    		list.findNext();
+    	}
+    	Product p=list.retrieve();
+		if (p.getName().equalsIgnoreCase(name))			return p;
+		
+		return null;
+    }//end searchByName
+    
+    
     
     public static void printTopNByAverageRating(LinkedList<Product> list, int n) {
         Product a = null, b = null, c = null;
@@ -220,6 +247,7 @@ this.stock=stock;
         
     }//end printTopNByAverageRating()
 	
+    
         
     public static void printCommonReviewedAbove(LinkedList<Product> list, int c1, int c2, double minAvg) {
     	boolean found=false;
@@ -311,6 +339,7 @@ this.stock=stock;
     	}
     
     
+    
     public static boolean removeById(LinkedList<Product> list, int pid) {
     	Product target = searchById(list, pid);
     	if (target == null)
@@ -337,6 +366,7 @@ this.stock=stock;
 		return false;
     }
    
+    
     @Override
 	public String toString() {
 		return "Product " + productId + ", name=" + name + ", price=" + price + ", stock=" + stock;
