@@ -401,7 +401,7 @@ public class Main {
         o.updateStatus(st);
     } // end updateOrderStatus
     
-    // =========================CSV Loaders=========================================
+    // CSV Loaders
     // products.csv: (productId,name,price,stock)
     static void loadProducts(String path) {
         try (BufferedReader br = new BufferedReader(new FileReader(path))) {
@@ -514,12 +514,6 @@ public class Main {
         } // end try-catch
     } // end loadOrders
 
-    
-    
-    
-    
-    
-    
     
     
     
