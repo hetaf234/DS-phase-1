@@ -8,390 +8,416 @@ import java.util.Scanner;
 
 public class Main {
 
-    static LinkedList<Product>  products  = new LinkedList<>();
-    static LinkedList<Customer> customers = new LinkedList<>();
-    static LinkedList<Order>    orders    = new LinkedList<>();
-    static final SimpleDateFormat DF = new SimpleDateFormat("dd/MM/yyyy");
+    static LinkedList<Product> products = new LinkedList<>();
+    static LinkedList<Customer>customers = new LinkedList<>();
+    static LinkedList<Order> orders = new LinkedList<>();
+    static final SimpleDateFormat DF= new SimpleDateFormat("dd/MM/yyyy");
 
-    // countList(list): counts elements by traversing (used for loaded counts + new IDs)
-    // countReviews(list): counts reviews (used to create reviewId)
+    // countList : counts elements by traversing
+   // used for loaded counts and new IDs
 
-    public static void main(String[] args) {
-        // Load CSV Files 
-    	// 1st in requirmentes 
-        loadProducts("src/Data_Structure/prodcuts.csv");  
+
+   public static void main (String[] args) {
+
+        // Load CSV files
+        loadProducts("src/Data_Structure/prodcuts.csv"); 
         loadCustomers("src/Data_Structure/customers.csv");
         loadOrders("src/Data_Structure/orders.csv");
         loadReviews("src/Data_Structure/reviews.csv");
 
-        System.out.println(
-            "Loaded Products=" + countList(products) +
-            ", Customers=" + countList(customers) +
-            ", Orders=" + countList(orders) 
- 
-            
-        ); // end println
+        System.out.println( "Loaded Products =" + countList( products) + ", Customers =" + countList(customers) +", Orders =" +countList(orders) );
 
-        
-        
-        
-        // Menu loop
-        Scanner sc = new Scanner(System.in);
+        //Menu loop
+
+        Scanner sc=new Scanner(System.in);
         int choice = -1;
+
         while (choice != 0) {
-        	System.out.println("\n========= MENU =========");
-        	// 1,2, and 3 --> 2nd in requirments 
-        	System.out.println("1.  Add Product");
-        	System.out.println("2.  Add Customer");
-        	System.out.println("3.  Place Order");
-        	// 4 --> 3rd in requirments
-        	System.out.println("4.  Add Review to Product");
-        	// 5 -->5th in requirments 
-        	System.out.println("5.  Top 3 Products by Average Rating");
-        	// 6 -->6th in requirments 
-        	System.out.println("6.  Orders Between Two Dates");
-        	// 7 -->7th in requirments 
-        	System.out.println("7.  Common Reviewed Products (avg > 4)");
-        	
-        	
-        	System.out.println("8.  View Product Details + Reviews");
-        	System.out.println("9.  Update Product (price/stock)");
-        	System.out.println("10. Edit Review by reviewId");
-        	System.out.println("11. Cancel an Order");
-        	System.out.println("12. Add Product to Existing Order");
-        	System.out.println("13. List Customer Orders");
-        	// 14 --> 4th in requirments 
-        	System.out.println("14. List Customer Reviews");
-        	
-        	
-        	System.out.println("15. Remove Product by ID");
-        	System.out.println("16. Update Order Status");
-        	System.out.println("17. Search Product by Name");
+                System.out.println("\n -------- MENU -------- ");
+                System.out.println("1- Add Product");
+                System.out.println("2- Add Customer");
+                System.out.println("3- Place Order");
+                // Customers can add reviews to products       
+                System.out.println("4- Add Review to Product");
+                // Suggest top 3 products by average rating
+                System.out.println("5- Top 3 Products by Average Rating");
+                // All orders between tow Dates
+                System.out.println("6- Orders Between Two Dates");
+                //  list of common products that have been reviewed with average >4 out of 5
+                System.out.println("7- Common Reviewed Products (avg > 4)");
+                System.out.println("8- View Product Details + Reviews");
+                System.out.println("9- Update Product (price/stock)");
+                System.out.println("10- Edit Review by reviewId");
+                System.out.println("11- Cancel an Order");
+                System.out.println("12- Add Product to Existing Order");
+                System.out.println("13- List Customer Orders");
+                // extract reviews from a specific customer
+                System.out.println("14- List Customer Reviews");
+                System.out.println("15- Remove Product by ID");
+                System.out.println("16- Update Order Status");
+                System.out.println("17- Search Product by Name");
+                System.out.println("0- Exit");
+                System.out.print(" Enter your choice: ");
 
-        
-        	System.out.println("0.  Exit");
-        	System.out.print("Enter choice: ");
+                  if (!sc.hasNextInt()){
+                    sc.nextLine();
+                    continue ;
+                } // end if
 
-        	if (!sc.hasNextInt()) { 
-        	    sc.nextLine(); 
-        	    continue; 
-        	} // end if 
-        	choice = sc.nextInt(); 
-        	sc.nextLine();
+                choice = sc.nextInt();
+                sc.nextLine();
 
-        	switch (choice) {
-        	    case 1:  addProduct(sc); break;
-        	    case 2:  addCustomer(sc); break;
-        	    case 3:  placeOrder(sc); break;
-        	    case 4:  addReview(sc); break;
-        	    case 5:  Product.printTopNByAverageRating(products, 3); break;
-        	    case 6:  ordersBetweenDates(sc); break;
-        	    case 7:  commonReviewedProducts(sc); break;
-        	    case 8:  viewProductDetails(sc); break;
-        	    case 9:  updateProduct(sc); break;
-        	    case 10: editReviewById(sc); break;
-        	    case 11: cancelOrder(sc); break;
-        	    case 12: addProductToExistingOrder(sc); break;
-        	    case 13: listCustomerOrders(sc); break;
-        	    case 14: listCustomerReviews(sc); break;
-        	    case 15: removeProductById(sc); break;
-        	    case 16: updateOrderStatus(sc); break;
-        	    case 17: searchProductByName(sc); break;
-        	    case 0:  
-        	        System.out.println("Program ended"); 
-        	        break;
-        	    default: 
-        	        System.out.println("Invalid choice"); 
-        	        break;
-        	
+                switch (choice) {
+                    case 1:
+                        addProduct(sc);   break;
+                    case 2:
+                        addCustomer(sc); break;
+                    case 3:
+                        placeOrder(sc); break;
+                    case 4:
+                        addReview(sc); break;
+                    case 5:
+                        Product.printTopNByAverageRating(products , 3); break;
+                    case 6:
+                        ordersBetweenDates(sc); break;
+                    case 7:
+                        commonReviewedProducts(sc); break;
+                    case 8:
+                        viewProductDetails(sc); break;
+                    case 9:
+                        updateProduct(sc); break;
+                    case 10:
+                        editReviewById(sc); break;
+                    case 11:
+                        cancelOrder(sc); break;
+                    case 12:
+                        addProductToExistingOrder(sc); break;
+                    case 13:
+                        listCustomerOrders(sc); break;
+                    case 14:
+                        listCustomerReviews(sc); break;
+                    case 15:
+                        removeProductById(sc); break;
+                    case 16:
+                        updateOrderStatus(sc); break;
+                    case 17:
+                        searchProductByName(sc); break;
+                    case 0: 
+                        System.out.println("Program ended ");
+                        break;
+
+                    default:
+                        System.out.println("Invalid choice !");
+                        break;
+
 
             } // end switch
         } // end while
-        sc.close();
+            sc.close();
     } // end main
 
 
     static void addProduct(Scanner sc) {
-        System.out.print("Product ID: ");
+        System.out.println("Product ID:");
+
         int id = sc.nextInt(); sc.nextLine();
-        System.out.print("Name: ");
+        System.out.println("Name:");
+
         String name = sc.nextLine();
-        System.out.print("Price: ");
+        System.out.println("Price");
+
         double price = sc.nextDouble(); sc.nextLine();
-        System.out.print("Stock: ");
+        System.out.println("Stock:");
         int stock = sc.nextInt(); sc.nextLine();
-        // adding it to the list 
-        products.insert(new Product(id, name, price, stock));
-        System.out.println("Product added");
+
+        // adding it to the list
+        products.insert (new Product(id, name, price, stock));
+        System.out.println("The product was successfully added ");
     } // end addProduct
 
     static void addCustomer(Scanner sc) {
-        System.out.print("Customer ID: ");
+        System.out.println("Customer ID:");
         int id = sc.nextInt(); sc.nextLine();
-        System.out.print("Name: ");
+
+        System.out.println("Name:");
         String name = sc.nextLine();
-        System.out.print("Email: ");
+
+        System.out.print("Email:");
         String email = sc.nextLine();
-        // adding it to the list 
-        customers.insert(new Customer(id, name, email));
+
+        // adding it to the list
+        customers.insert (new Customer(id, name, email));
         System.out.println("Customer added");
     } // end addCustomer
 
     static void placeOrder(Scanner sc) {
-        System.out.print("Customer ID: ");
-        int cid = sc.nextInt(); 
-        // cleaning 
+        System.out.println("Customer ID:");
+        int cid = sc.nextInt();
+        // for cleaning
         sc.nextLine();
-        
-        
-        Customer cust = Customer.searchById(customers, cid);
-        if (cust == null) { System.out.println("Customer not found"); return; } // end if
+        Customer cust = Customer.searchById(customers , cid);
+        if (cust == null ) {
+                System.out.println("Customer not found");
+                return;
+                } // end if
 
-        int newOrderId = countList(orders) + 1; 
-        Order order = new Order(newOrderId, cust, new Date());
+        int newOrderId = countList(orders) +1;
+        Order order = new Order (newOrderId ,cust , new Date() );
+char more ='y';
 
-        char more = 'y';
-        while (more == 'y' || more == 'Y') {
-            System.out.print("Product ID: ");
-            int pid = sc.nextInt(); 
-            // cleaning 
+        while ( more =='y'|| more =='Y') {
+                System.out.println("Product ID:");           
+            int pid = sc.nextInt();
+            // for cleaning
             sc.nextLine();
-            
-            Product p = Product.searchById(products, pid);
-            if (p == null) {
-                System.out.println("Product not found");
-            } else {// product is found 
-              
-                
-                order.addProduct(p);
-                System.out.println("Added"+ p.getName());
-            } // end if-else
 
-            System.out.print("Add another? (y/n): ");
+            Product p = Product.searchById(products ,pid);
+            if (p == null) {
+               System.out.println("Product not found");}
+
+             else { // product is found
+                order.addProduct(p);
+                System.out.println("Added "+p.getName() );
+
+            } // end if else
+
+                System.out.println("Add another ? enter (y/n) : ");
             String s = sc.nextLine();
-            if (s.length() > 0) { 
-            	more = s.charAt(0);
-            	} else 
-            	{ more = 'n'; } // end if
+            if (s.length() > 0) {
+                more =s.charAt(0); }
+                 else {
+                more ='n'; } // end if
         } // end while
 
-        cust.placeOrder(order);
-        orders.insert(order);
-        System.out.println("Order placed. Total = " + order.getTotalPrice());
+        cust.placeOrder(order);  orders.insert(order);
+        System.out.println("Order placed. / Total =" + order.getTotalPrice());
     } // end placeOrder
 
     static void addReview(Scanner sc) {
-        System.out.print("Product ID: ");
-        int pid = sc.nextInt(); 
-        //cleaning
-        sc.nextLine();
-        
+        System.out.println("Product ID:"); 
+        int pid =sc.nextInt();
+        sc.nextLine();   // for cleaning
+
         Product p = Product.searchById(products, pid);
         if (p == null) {
          System.out.println("Product not found");
-         return; 
+         return;
          } // end if
 
-        System.out.print("Customer ID: ");
-        int cid = sc.nextInt(); 
-        //cleaning 
-        sc.nextLine();
-        
-        Customer u = Customer.searchById(customers, cid);
-        if (u == null) { 
-        	System.out.println("Customer not found"); 
-        	return; 
-        	} // end if
+        System.out.println(" Customer ID:");
+        int cid = sc.nextInt();
+        sc.nextLine(); //       cleaning
 
-        System.out.print("Rating (1–5): ");
+        Customer u = Customer.searchById(customers ,cid);
+        if (u == null) {
+                System.out.println("Customer not found");
+                return;
+                } // end if
+
+        System.out.print("Rating from 1–5 : ");
         int rating = sc.nextInt();
-        //cleaning 
-        sc.nextLine();
-        
-        System.out.print("Comment: ");
+        sc.nextLine();  //for cleaning
+
+        System.out.print(" Comment : ");
         String comment = sc.nextLine();
 
-       
+
         int newReviewId = countList(p.getReviews()) + countList(u.getMyReviews()) + 1;
 
         Review r = new Review(newReviewId, pid, cid, rating, comment);
-        p.addReview(r);  
-        u.addReview(r);  
+        p.addReview(r); 
+        u.addReview(r); 
 
-        System.out.println("Review added");
+        System.out.println(" Review added");
     } // end addReview
 
     static void extractReviewsByCustomer(Scanner sc) {
-        System.out.print("Customer ID: ");
-        int cid = sc.nextInt(); 
-        //cleaning 
-        sc.nextLine();
-        
-        Customer.printReviewsByCustomerId(customers, cid);
+        System.out.println(" Customer ID:");
+        int cid = sc.nextInt();
+        sc.nextLine();// cleaning
+
+        Customer.printReviewsByCustomerId( customers, cid);
     } // end extractReviewsByCustomer
 
     static void ordersBetweenDates(Scanner sc) {
+
         try {
-            System.out.print("Start (dd/MM/yyyy): ");
+                System.out.println(" Start (dd/MM/yyyy) :");
             Date start = DF.parse(sc.nextLine());
-            System.out.print("End (dd/MM/yyyy): ");
+
+            System.out.print(" End (dd/MM/yyyy) : ");
             Date end = DF.parse(sc.nextLine());
             Order.printBetweenDates(orders, start, end);
-        } catch (Exception e) {
-            System.out.println("Wrong date format");
-        } // end try-catch
+
+        }
+        catch (Exception e) {
+            System.out.println(" Wrong date format ");
+        } // end try / catch
     } // end ordersBetweenDates
 
     static void commonReviewedProducts(Scanner sc) {
-        System.out.print("First customer ID: ");
+        System.out.println(" First customer ID:");
         int c1 = sc.nextInt(); sc.nextLine();
-        System.out.print("Second customer ID: ");
+
+        System.out.print(" Second customer ID:");
         int c2 = sc.nextInt(); sc.nextLine();
+
         Product.printCommonReviewedAbove(products, c1, c2, 4.0);
     } // end commonReviewedProducts
 
     static void viewProductDetails(Scanner sc) {
         System.out.print("Product ID: ");
         int pid = sc.nextInt();
-        //cleaning 
+    // for cleaning
         sc.nextLine();
-        
-        Product p = Product.searchById(products, pid);
-        if (p == null) { 
-        	System.out.println("Product not found"); 
-        	return; 
-        	} // end if
+
+        Product p = Product.searchById( products, pid);
+        if (p == null) {
+                System.out.println("The Product not found");
+                return;
+                } // end if
         p.printDetails();
     } // end viewProductDetails
 
     static void updateProduct(Scanner sc) {
         System.out.print("Product ID: ");
         int pid = sc.nextInt();
-        //cleaning 
-        sc.nextLine();
-        
-        Product p = Product.searchById(products, pid);
-        if (p == null) { 
-        	System.out.println("Product not found");
-        	return;
-        	} // end if
+        sc.nextLine();// cleaning
 
-        System.out.print("New price (or -1 to skip): ");
+        Product p = Product.searchById(products, pid);
+        if (p == null) {
+                System.out.println("Product not found");
+                return;
+                } // end if
+        System.out.print("New price : ( or -1 to skip )");
         double np = sc.nextDouble(); sc.nextLine();
-        System.out.print("New stock (or -1 to skip): ");
-        int ns = sc.nextInt(); 
-        //cleaning 
+
+        System.out.print("New stock : ( or -1 to skip )");
+        int ns = sc.nextInt();
         sc.nextLine();
-        
+
+
 
         p.updateProduct(np, ns);
-        System.out.println("Product updated");
+        System.out.print("Product updated ");
+
     } // end updateProduct
 
     static void editReviewById(Scanner sc) {
-        System.out.print("Product ID: ");
-        int pid = sc.nextInt(); 
-        //cleaning 
+        System.out.print("Product ID:");
+        int pid =sc.nextInt();
+        //for cleaning
         sc.nextLine();
-        
-        Product p = Product.searchById(products, pid);
-        if (p == null) { System.out.println("Product not found"); return; } // end if
 
-        System.out.print("Review ID to edit: ");
-        int rid = sc.nextInt(); 
-        //cleaning 
-        sc.nextLine();
-        
 
-        System.out.print("New rating (1-5, or 0 to skip): ");
-        int nr = sc.nextInt(); 
-        //cleaning 
+        Product p= Product.searchById(products, pid);
+        if (p == null) {
+                System.out.print("Product not found ");
+        return; } // end if
+
+
+        System.out.print("Review Id to edit : ");
+        int rid = sc.nextInt();
+        // for cleaning
         sc.nextLine();
-        
+
+
+        System.out.print("New rating from 1-5  (or 0 to skip): ");
+        int nr = sc.nextInt();
+        sc.nextLine();
+
         Integer newRating = (nr >= 1 && nr <= 5) ? Integer.valueOf(nr) : null;
 
-        System.out.print("New comment (leave empty to skip): ");
+        System.out.print(" New comment (leave empty to skip ) : ");
         String nc = sc.nextLine();
-        String newComment = (nc.length() == 0) ? null : nc;
+        String newComment = (nc.length()==0)? null : nc;
+
 
         boolean ok = p.editReviewById(rid, newRating, newComment);
-        if (ok) { 
-        	System.out.println("Review updated"); 
-        	} else { 
-        		System.out.println("Review not found");
-        		} // end if
+        if (ok) {
+                System.out.println("The Review has been updated");
+                } else {
+                        System.out.println("Review not found");
+                        } // end if
     } // end editReviewById
 
     static void cancelOrder(Scanner sc) {
-        System.out.print("Order ID: ");
-        int oid = sc.nextInt(); 
-        //cleaning 
-        sc.nextLine();
-        
+        System.out.print("Order ID :");
+        int oid = sc.nextInt();
+        sc.nextLine(); // for cleaning
+
         Order o = Order.searchById(orders, oid);
-        if (o == null) { 
-        	System.out.println("Order not found");
-        	return;
-        	} // end if
+        if (o == null) {
+                System.out.println("Order not found");
+                return;
+                } // end if
         o.cancel();
     } // end cancelOrder
 
     static void addProductToExistingOrder(Scanner sc) {
-        System.out.print("Order ID: ");
-        int oid = sc.nextInt(); 
-        System.out.print("Product ID: ");
-        int pid = sc.nextInt(); 
-         
+        System.out.print("Order ID :");
+        int oid = sc.nextInt();
+
+        System.out.print("Product ID :");
+        int pid = sc.nextInt();
+
 
         boolean ok = Order.addProductToOrderById(orders, products, oid, pid);
-        if (ok) { 
-        	System.out.println("Added product to order"); 
-        } else { 
-        	System.out.println("Order or product not found");
-        		} // end else
+        if (ok) {
+                System.out.println(" The product has been added to the order");
+        } else {
+                System.out.println(" The product or order not found");
+                        } // end else
     } // end addProductToExistingOrder
 
     static void listCustomerOrders(Scanner sc) {
-        System.out.print("Customer ID: ");
-        int cid = sc.nextInt(); 
+        System.out.print("Customer ID : ");
+        int cid = sc.nextInt();
+
         Customer c = Customer.searchById(customers, cid);
-        if (c == null) { System.out.println("Customer not found"); return; } // end if
+        if (c == null) {
+                System.out.println("Customer  not found");
+        return; } // end if
         c.viewOrderHistory();
     } // end listCustomerOrders
 
     static void listCustomerReviews(Scanner sc) {
-        System.out.print("Customer ID: ");
+        System.out.print(" Customer ID : ");
         int cid = sc.nextInt();
+
         Customer c = Customer.searchById(customers, cid);
-        if (c == null) { System.out.println("Customer not found"); return; } // end if
+        if (c == null) {
+                System.out.println("Customer not found");
+                return; } // end if
         c.printMyReviews();
     } // end listCustomerReviews
 
-    
-    
-    
-    
+
 
     static void removeProductById(Scanner sc) {
-        System.out.print("Product ID to remove: ");
-        int pid = sc.nextInt(); 
+        System.out.print(" Product ID to remove : ");
+        int pid = sc.nextInt();
+
         boolean ok = Product.removeById(products, pid);
-        if (ok) { System.out.println("Product removed (and its reviews cleared)."); }
-        else    { System.out.println("Product not found."); }
+        if (ok) {
+                System.out.println("The product was successfully removed "); }
+        else    {
+                System.out.println(" The product not found "); }// end if else
     } // end removeProductById
 
-   
-    
-    static void updateOrderStatus(Scanner sc) {
-        System.out.print("Order ID: ");
-        int oid = sc.nextInt(); 
-        //cleaning 
-        sc.nextLine();
-        
-        Order o = Order.searchById(orders, oid);
-        if (o == null) { System.out.println("Order not found"); return; } // end if
 
-        System.out.print("New status (Pending/Shipped/Delivered/Canceled): ");
+
+    static void updateOrderStatus(Scanner sc) {
+        System.out.print("Order ID : ");
+        int oid = sc.nextInt();
+        sc.nextLine(); //for cleaning
+
+        Order o = Order.searchById(orders, oid);
+        if (o == null) {
+                System.out.println("The order not found");
+                return; } // end if
+
+        System.out.print(" New status (Pending- Shipped- Delivered- Canceled) : ");
         String st = sc.nextLine();
         if (st == null || st.length() == 0) {
             System.out.println("No status given");
@@ -400,12 +426,14 @@ public class Main {
 
         o.updateStatus(st);
     } // end updateOrderStatus
-    
+
     // CSV Loaders
-    // products.csv: (productId,name,price,stock)
+
+    // load products.csv : productId,name,price,stock
     static void loadProducts(String path) {
-        try (BufferedReader br = new BufferedReader(new FileReader(path))) {
-            br.readLine(); // skip header
+        try (BufferedReader br = new BufferedReader(new FileReader(path)))
+        {
+            br.readLine(); // to skip header
             String line;
             while ((line = br.readLine()) != null) {
                 if (line.isEmpty()) continue;
@@ -416,15 +444,17 @@ public class Main {
                 int stock = Integer.parseInt(c[3]);
                 products.insert(new Product(id, name, price, stock));
             } // end while
+
         } catch (Exception e) {
-            System.out.println("Products load error: " + e.getMessage());
-        } // end try-catch
+            System.out.println(" The products load error : " + e.getMessage());
+        } // end try catch
     } // end loadProducts
 
-    // customers.csv: (customerId,name,email)
+    // load customers.csv : customerId,name,email
     static void loadCustomers(String path) {
-        try (BufferedReader br = new BufferedReader(new FileReader(path))) {
-            br.readLine(); // skip header
+        try (BufferedReader br = new BufferedReader(new FileReader(path)))
+        {
+            br.readLine(); // to skip header
             String line;
             while ((line = br.readLine()) != null) {
                 if (line.isEmpty()) continue;
@@ -434,55 +464,68 @@ public class Main {
                 String email = c[2];
                 customers.insert(new Customer(id, name, email));
             } // end while
-        } catch (Exception e) {
-            System.out.println("Customers load error: " + e.getMessage());
-        } // end try-catch
+        }
+        catch (Exception e) {
+            System.out.println("The customers load error : " + e.getMessage());
+        } // end try catch
     } // end loadCustomers
 
-    // orders.csv 
+    // load orders.csv :
     static void loadOrders(String path) {
-        try (BufferedReader br = new BufferedReader(new FileReader(path))) {
+        try (BufferedReader br = new BufferedReader(new FileReader(path)))
+        {
             String header = br.readLine();
-            if (header == null) { return; } // end if empty
+            if (header == null) {
+                return; } // end if empty
 
             String[] h = header.split(",", -1);
             for (int i = 0; i < h.length; i++) { h[i] = h[i].toLowerCase(); } // end for
 
             int idxOrderId = -1, idxCustomerId = -1, idxDate = -1, idxItems = -1;
-            for (int i = 0; i < h.length; i++) {
+            for (int i = 0; i < h.length; i++) { //start for
                 String k = h[i];
-                if (k.equals("orderid")) idxOrderId = i;
-                else if (k.equals("customerid")) idxCustomerId = i;
-                else if (k.equals("orderdate") || k.equals("date")) idxDate = i;
-                else if (k.equals("items") || k.equals("productids") || k.equals("products")) idxItems = i;
+
+                if (k.equals("orderid"))
+                        idxOrderId = i;
+                else if
+                (k.equals("customerid")) idxCustomerId = i;
+                else if
+                (k.equals("orderdate") || k.equals("date")) idxDate = i;
+                else if
+                (k.equals("items") || k.equals("productids") || k.equals("products")) idxItems = i;
             } // end for
 
             if (idxDate == -1 || idxItems == -1) {
-                System.out.println("Orders load error: need orderDate/date and productIds/items columns.");
+                System.out.println("Orders load error : need orderDate/date and productIds/items columns ");
                 return;
             } // end if
 
             String line; int autoId = 1;
-            while ((line = br.readLine()) != null) {
-                if (line.isEmpty()) continue;
+
+            while ((line = br.readLine()) != null)
+            {
+                if (line.isEmpty())
+                        continue;
+
                 String[] c = line.split(",", -1);
+                int orderId = (idxOrderId >= 0 && idxOrderId < c.length && c[idxOrderId].length() > 0) ? Integer.parseInt(c[idxOrderId]) : autoId++;
 
-                int orderId = (idxOrderId >= 0 && idxOrderId < c.length && c[idxOrderId].length() > 0)
-                        ? Integer.parseInt(c[idxOrderId]) : autoId++;
-
-                Integer custId = (idxCustomerId >= 0 && idxCustomerId < c.length && c[idxCustomerId].length() > 0)
-                        ? Integer.parseInt(c[idxCustomerId]) : null;
+                Integer custId = (idxCustomerId >= 0 && idxCustomerId < c.length && c[idxCustomerId].length() > 0) ? Integer.parseInt(c[idxCustomerId]) : null;
 
                 Date date;
                 try {
                     String ds = (idxDate < c.length) ? c[idxDate] : "";
-                    ds = ds.replace("\r", "").replace("\"", "").replace(" ", ""); 
-                    try { date = new SimpleDateFormat("dd/MM/yyyy").parse(ds); }
-                    catch (Exception e1) { date = new SimpleDateFormat("d/M/yyyy").parse(ds); }
-                } catch (Exception e) {
-                    System.out.println("Orders load error: Unparseable date: \"" + ((idxDate < c.length) ? c[idxDate] : "") + "\"");
+                    ds = ds.replace("\r", "").replace("\"", "").replace(" ", "");
+                    try { date = new SimpleDateFormat("dd/MM/yyyy").parse(ds);
+                    }
+                    catch (Exception e1) {
+                        date = new SimpleDateFormat("d/M/yyyy").parse(ds);
+                        }//end catch
+                }
+                catch (Exception e) {
+                    System.out.println("The orders load error : Unparseable date: \"" + ((idxDate < c.length) ? c[idxDate] : "") + "\"");
                     continue;
-                } // end try-catch date
+                } // end try catch date
 
                 String items = (idxItems < c.length) ? c[idxItems] : "";
                 Customer cust = (custId == null) ? null : Customer.searchById(customers, custId);
@@ -491,84 +534,95 @@ public class Main {
                 if (items.length() > 0) {
                     String[] pairs = items.split(";");
                     for (int j = 0; j < pairs.length; j++) {
-                        
                         int pid = Integer.parseInt(pairs[j].trim());
-                        
-                        Product p = Product.searchById(products, pid);
-                        if (p != null) { order.addProduct(p); } // end if
+
+                        Product p = Product.searchById( products, pid);
+                        if (p != null) {
+                                order.addProduct(p);
+                       } // end if
                     } // end for
                 } // end if items
 
                 if (c.length > 4 && c[4].length() > 0) {
-                    try { order.setTotalPrice(Double.parseDouble(c[3])); } catch (Exception ex) {}
+                    try { order.setTotalPrice(Double.parseDouble(c[3]));
+                    } catch (Exception ex) {}
                 }
                 if (c.length > 5 && c[5].length() > 0) {
                     order.setStatus(c[5]);
                 }
 
                 orders.insert(order);
-                if (cust != null) { cust.placeOrder(order); } // end if
+                if (cust != null) {
+                        cust.placeOrder(order);
+                        } // end if
             } // end while
         } catch (Exception e) {
-            System.out.println("Orders load error: " + e.getMessage());
-        } // end try-catch
+            System.out.println("The orders load error : " + e.getMessage());
+        } // end try catch
     } // end loadOrders
 
-    
-    
-    
-    // reviews.csv: reviewId,productId,customerId,rating,comment
+
+
+
+    // load reviews.csv : reviewId,productId,customerId,rating,comment
     static void loadReviews(String path) {
-        try (BufferedReader br = new BufferedReader(new FileReader(path))) {
-            br.readLine(); // skip header
+        try (BufferedReader br = new BufferedReader(new FileReader(path)))
+        {
+            br.readLine(); // to skip header
             String line;
             while ((line = br.readLine()) != null) {
-                if (line.isEmpty()) continue;
+                if (line.isEmpty())
+                        continue;
                 String[] c = line.split(",", -1);
 
                 int reviewId   = Integer.parseInt(c[0]);
                 int productId  = Integer.parseInt(c[1]);
                 int customerId = Integer.parseInt(c[2]);
                 int rating     = Integer.parseInt(c[3]);
-                String comment = (c.length > 4) ? c[4] : "";
+                String comment = (c.length > 4)? c[4] : "";
 
-                Product  p = Product.searchById(products, productId);
-                Customer u = Customer.searchById(customers, customerId);
-                if (p != null && u != null) {
+                Product  p =  Product.searchById(products, productId);
+                Customer u =  Customer.searchById(customers, customerId);
+                if (p != null && u != null)
+                {
                     Review r = new Review(reviewId, productId, customerId, rating, comment);
                     p.addReview(r);
                     u.addReview(r);
                 } // end if
             } // end while
         } catch (Exception e) {
-            System.out.println("Reviews load error: " + e.getMessage());
-        } // end try-catch
+            System.out.println("The reviews load error: " + e.getMessage());
+        } // end try catch
     } // end loadReviews
 
     static <T> int countList(LinkedList<T> list) {
-        if (list.empty()) return 0;
+        if (list.empty())
+                return 0;
         int cnt = 0;
         list.findFirst();
+
         while (true) {
             cnt++;
-            if (list.last()) break;
+            if (list.last())
+                break;
             list.findNext();
-        } // end while
+        } // end while loop
         return cnt;
     } // end countList
 
-   
-    static void searchProductByName(Scanner sc) {
-    	System.out.print("Enter Product Name: ");
-    	String name=sc.nextLine();
-    	
-    	Product p=Product.searchByName(products, name);
-    	if (p==null) {
-        	System.out.println("Product not found.");
-        	return;
-    	}//end if
-    	p.printDetails();
-    }//end searchProductByName()
 
-    
+    static void searchProductByName(Scanner sc) {
+        System.out.print("Enter The product Name : ");
+        String name=sc.nextLine();
+
+        Product p=Product.searchByName(products, name);
+        if (p==null) {
+                System.out.println("The product not found.");
+                return;
+        }//end if
+        p.printDetails();
+    } //end searchProductByName()
+
+
 } // end Main class
+

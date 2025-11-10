@@ -135,6 +135,7 @@ public void printMyReviews() {
     		Customer c=list.retrieve();
     		if(c.getCustomerId()==id)
     			return c;
+    		list.findNext();
     	}//while
     	//last Customer
     	Customer c=list.retrieve();
