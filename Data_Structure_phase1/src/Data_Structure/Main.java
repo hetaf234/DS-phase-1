@@ -13,10 +13,6 @@ public class Main {
     static LinkedList<Order> orders = new LinkedList<>();
     static final SimpleDateFormat DF= new SimpleDateFormat("dd/MM/yyyy");
 
-    // countList : counts elements by traversing
-   // used for loaded counts and new IDs
-
-
    public static void main (String[] args) {
 
         // Load CSV files
@@ -41,7 +37,7 @@ public class Main {
                 System.out.println("4- Add Review to Product");
                 // Suggest top 3 products by average rating
                 System.out.println("5- Top 3 Products by Average Rating");
-                // All orders between tow Dates
+                // All orders between two Dates
                 System.out.println("6- Orders Between Two Dates");
                 //  list of common products that have been reviewed with average >4 out of 5
                 System.out.println("7- Common Reviewed Products (avg > 4)");
